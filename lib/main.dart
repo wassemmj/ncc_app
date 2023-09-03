@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ncc_app/views/auth_view/login_view.dart';
 import 'package:ncc_app/views/nav_view/nav_view.dart';
 
 import 'core/color1.dart';
@@ -16,10 +17,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          // hoverColor: Colors.transparent,
+        appBarTheme: const AppBarTheme(
+          color: Color1.white,
+          elevation: 0,
+        ),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Color1.primaryColor, // Your accent color
+        ),
         scaffoldBackgroundColor: Color1.white,
-        primarySwatch: Colors.deepOrange,
       ),
-      home: const NavView()
+      home: const LoginView()
     );
   }
 }

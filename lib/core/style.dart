@@ -8,8 +8,14 @@ abstract class Style {
     textStyle: const TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.w900,
-      color: Color1.primaryColor,
+      color: Colors.orange,
     ),
+  );
+
+  static const  textStyle30 = TextStyle(
+    color: Color1.black,
+    fontSize: 30,
+    fontWeight: FontWeight.w800,
   );
 
   static var   textStyle23 = TextStyle(
@@ -25,9 +31,21 @@ abstract class Style {
       fontWeight: FontWeight.w600
   );
 
+  static TextStyle textStyleSec = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w500,
+    color: Color1.primaryColor,
+  );
+
   static const textStyle18 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.normal,
+  );
+
+  static const textStyle17 = TextStyle(
+    color: Color1.black,
+    fontWeight: FontWeight.w400,
+    fontSize: 17,
   );
 
   static const textStyle14 = TextStyle(
