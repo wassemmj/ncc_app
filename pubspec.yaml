@@ -48,6 +48,8 @@ dependencies:
   scroll_loop_auto_scroll: ^0.0.2
   carousel_slider:
   flutter_slidable:
+  flutter_advanced_drawer:
+  shrink_sidemenu: ^2.0.0+2-null-safety
 
 dev_dependencies:
   flutter_test:

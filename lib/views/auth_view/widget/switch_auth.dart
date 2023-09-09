@@ -25,6 +25,9 @@ class _SwitchAuthState extends State<SwitchAuth> {
           style: Style.textStyle14,
         ),
         TextButton(
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(Colors.transparent)
+          ),
             onPressed: widget.f,
             child: Text(
               widget.login ? 'Sing up' : 'Sign in',

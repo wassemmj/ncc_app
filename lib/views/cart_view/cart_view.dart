@@ -24,33 +24,7 @@ class CartView extends StatefulWidget {
   State<CartView> createState() => _CartViewState();
 }
 
-/*
-Material(
-  type: MaterialType.transparency,
-  child: Ink(
-    decoration: BoxDecoration(
-      border: Border.all(color: Colors.green, width: 7.0),
-      color: Colors.greenAccent,
-      shape: BoxShape.circle,
-    ),
-    child: InkWell(
-      borderRadius: BorderRadius.circular(500.0),
-      onTap: () {},
-      child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Icon(
-          Icons.directions_walk,
-          size: 30.0,
-          color: Colors.black,
-        ),
-      ),
-    ),
-  ),
-)
- */
 class _CartViewState extends State<CartView> {
-  int value = 1;
-
   double height = 0, width = 0;
 
   @override
@@ -87,64 +61,3 @@ class _CartViewState extends State<CartView> {
     );
   }
 }
-
-/*
-SizedBox(
-                                height: 20,
-                                // decoration: BoxDecoration(
-                                //   color: Colors.black12.withOpacity(0.03),
-                                //   borderRadius: BorderRadius.circular(25),
-                                // ),
-                                child: Row(
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          if(value==1) {
-                                            return;
-                                          }
-                                          value--;
-                                        });
-                                      },
-                                      style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(new EdgeInsets.all(0.0)),
-                                          backgroundColor: MaterialStateProperty.all(Color1.white),
-                                          shape: MaterialStateProperty.all(const CircleBorder()),
-                                          side: MaterialStateProperty.all(const BorderSide(color: Color1.black))
-                                      ),
-                                      child: Icon(
-                                        Icons.remove,
-                                        color: Color1.black,
-                                        size: (height * .02),
-                                      ),
-                                    ),
-                                    Text(
-                                      '$value',
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          value++;
-                                        });
-                                      },
-                                      style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(new EdgeInsets.all(0.0)),
-                                          backgroundColor: MaterialStateProperty.all(Color1.black),
-                                          shape: MaterialStateProperty.all(const CircleBorder()),
-                                          side: MaterialStateProperty.all(const BorderSide(color: Color1.black))
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Color1.white,
-                                        size: (height * .02),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
- */

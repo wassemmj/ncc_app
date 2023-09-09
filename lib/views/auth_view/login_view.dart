@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/core/style.dart';
+import 'package:ncc_app/logic/auth_cubit/auth_cubit.dart';
 import 'package:ncc_app/views/auth_view/widget/angle_auth.dart';
 import 'package:ncc_app/views/auth_view/widget/auth_button.dart';
 import 'package:ncc_app/views/auth_view/widget/switch_auth.dart';
 import 'package:ncc_app/views/nav_view/nav_view.dart';
 
 import '../../core/color1.dart';
+import '../../data/models/auth_model.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -15,9 +18,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var passwordCoController = TextEditingController();
+  var emailController = TextEditingController(text: 'wassem125@gmailcom');
+  var passwordController = TextEditingController(text: '123456789@w');
+  var passwordCoController = TextEditingController(text: '123456789@w');
+  var usernameController = TextEditingController(text: 'wasm');
+
+  // var addressController = TextEditingController();
   GlobalKey formKey = GlobalKey();
 
   bool obscure = true, obscure1 = true;
@@ -30,11 +36,12 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const RangeMaintainingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const AngleAuth(),
-              SizedBox(height: height * 0.1),
+              SizedBox(height: login ? height * 0.1 : height * 0.01),
               Container(
                 padding: EdgeInsets.all(height * 0.02),
                 child: Form(
@@ -54,6 +61,34 @@ class _LoginViewState extends State<LoginView> {
                             )
                           : Container(),
                       SizedBox(height: height * 0.04),
+                      !login
+                          ? TextFormField(
+                              cursorColor: Color1.primaryColor,
+                              decoration: InputDecoration(
+                                labelText: 'User name',
+                                floatingLabelStyle: const TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 22),
+                                focusColor: Color1.primaryColor,
+                                labelStyle: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w400),
+                                iconColor: Color1.primaryColor,
+                                prefixIcon: const Icon(
+                                  Icons.person,
+                                  // color: Color1.black,
+                                ),
+                              ),
+                              controller: usernameController,
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return 'User name is required';
+                                }
+                                return null;
+                              },
+                            )
+                          : Container(),
+                      !login ? SizedBox(height: height * 0.022) : Container(),
                       TextFormField(
                         cursorColor: Color1.primaryColor,
                         decoration: InputDecoration(
@@ -166,17 +201,19 @@ class _LoginViewState extends State<LoginView> {
                             )
                           : Container(),
                       SizedBox(height: height * 0.03),
-                      AuthButton(login: login, onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavView(),));
-                      },),
-                      SizedBox(
-                        height: login ? height * 0.22 : height * 0.16,
+                      AuthButton(
+                        login: login,
+                        onPressed: onPressed,
                       ),
-                      SwitchAuth(login: login, f: () {
-                        passwordController.clear();
-                        emailController.clear();
-                        setState(() => login = !login);
-                      }),
+                      SwitchAuth(
+                          login: login,
+                          f: () {
+                            passwordController.clear();
+                            emailController.clear();
+                            passwordCoController.clear();
+                            usernameController.clear();
+                            setState(() => login = !login);
+                          }),
                     ],
                   ),
                 ),
@@ -186,6 +223,38 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  onPressed() async {
+    if (login) {
+      await BlocProvider.of<AuthCubit>(context).login(
+        AuthModel(
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      );
+      if (BlocProvider.of<AuthCubit>(context).state.status ==
+          AuthStatus.success) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const NavView(),
+        ));
+      }
+    } else {
+      await BlocProvider.of<AuthCubit>(context).register(
+        AuthModel(
+            name: usernameController.text,
+            email: emailController.text,
+            address: 'hgh',
+            password: passwordController.text,
+            coPassword: passwordCoController.text),
+      );
+      if (BlocProvider.of<AuthCubit>(context).state.status ==
+          AuthStatus.success) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const NavView(),
+        ));
+      }
+    }
   }
 }
 
