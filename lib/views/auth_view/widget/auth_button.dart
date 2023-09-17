@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncc_app/core/color1.dart';
 import 'package:ncc_app/logic/auth_cubit/auth_cubit.dart';
 
 class AuthButton extends StatefulWidget {
@@ -42,6 +43,7 @@ class _AuthButtonState extends State<AuthButton> {
               style: ButtonStyle(
                   padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
                   elevation: MaterialStateProperty.all(10),
+                  backgroundColor: MaterialStateProperty.all(Color1.primaryColor),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)))),
               child: Row(

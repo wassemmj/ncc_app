@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncc_app/core/color1.dart';
+import 'package:ncc_app/logic/cat_cubit/cat_cubit.dart';
 import 'package:ncc_app/views/explore_view/widget/category_widget.dart';
 import 'package:ncc_app/views/explore_view/widget/section_widget.dart';
 
@@ -11,33 +14,48 @@ class ExploreView extends StatefulWidget {
 }
 
 class _ExploreViewState extends State<ExploreView> {
-  List e = [
-    'Laptop',
-    'Desktop',
-    'Monitor',
-    'Gaming',
-    'Storage',
-    'Hardware',
-    'Audio',
-    'Printer',
-    'Scanner',
-    'Accessories',
-    'Software',
-    'Tvs'
-  ];
-
   int currentIndex = 0;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await BlocProvider.of<CatCubit>(context).getCat();
+      var c = BlocProvider.of<CatCubit>(context).category['category'][0];
+      await BlocProvider.of<CatCubit>(context).getSec(c['id']);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            CategoryWidget(set : (index) => setState(() => currentIndex=index),currentIndex: currentIndex, ),
-            const SectionWidget(),
-          ],
+        child: BlocBuilder<CatCubit, CatState>(
+          builder: (context, state) {
+            if( BlocProvider.of<CatCubit>(context).category == null) {
+              return Container(
+                alignment: Alignment.center,
+                height: height * 0.8,
+                child: CircularProgressIndicator(color: Color1.primaryColor,strokeWidth: 1,),
+              );
+            }
+            var category = BlocProvider.of<CatCubit>(context).category['category'];
+            return Column(
+              children: [
+                CategoryWidget(
+                  set: (index) async{
+                    setState(() => currentIndex = index);
+                    await BlocProvider.of<CatCubit>(context).getSec(category[currentIndex]['id']);
+                  },
+                  currentIndex: currentIndex,
+                  category: category,
+                ),
+                SectionWidget(catId: category[currentIndex]['id'],),
+              ],
+            );
+          },
         ),
       ),
     );

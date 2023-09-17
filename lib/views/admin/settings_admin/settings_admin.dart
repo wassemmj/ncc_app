@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/views/admin/adverts_admin/adverts_admin.dart';
+import 'package:ncc_app/views/admin/change_color_view/change_color_view.dart';
 import 'package:ncc_app/views/admin/create_category/create_category.dart';
+import 'package:ncc_app/views/admin/create_product/create_product.dart';
 import 'package:ncc_app/views/admin/create_section/create_section.dart';
+import 'package:ncc_app/views/admin/create_sector/create_sector.dart';
 import 'package:ncc_app/views/admin/pcs_view/pcs_view.dart';
 import 'package:ncc_app/views/admin/settings_admin/widget/settings_admin_widget.dart';
+import 'package:ncc_app/views/admin/user_view/user_view.dart';
 
 import '../../../logic/auth_cubit/auth_cubit.dart';
 import '../../auth_view/login_view.dart';
@@ -22,7 +26,8 @@ class _SettingsAdminState extends State<SettingsAdmin> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
-      child: Container(
+      child: SingleChildScrollView(
+        physics: const RangeMaintainingScrollPhysics(),
         child: Column(
           children: [
             SettingsAdminWidget(
@@ -30,6 +35,11 @@ class _SettingsAdminState extends State<SettingsAdmin> {
                 function: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const PCSView(),
                     ))),
+            SettingsAdminWidget(
+                text: 'All User',
+                function: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const UserView(),
+                ))),
             SettingsAdminWidget(
                 text: 'Create Category',
                 function: () => Navigator.of(context).push(MaterialPageRoute(
@@ -41,9 +51,14 @@ class _SettingsAdminState extends State<SettingsAdmin> {
                       builder: (context) => const CreateSection(),
                     ))),
             SettingsAdminWidget(
+                text: 'Create Sector',
+                function: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CreateSector(),
+                ))),
+            SettingsAdminWidget(
                 text: 'Create Product',
                 function: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const CreateSection(),
+                      builder: (context) => const CreateProduct(),
                     ))),
             SettingsAdminWidget(
                 text: 'Adverts',
@@ -52,9 +67,7 @@ class _SettingsAdminState extends State<SettingsAdmin> {
                     ))),
             SettingsAdminWidget(
                 text: 'Change Color',
-                function: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const CreateSection(),
-                    ))),
+                function: () => showDialog(context: context, builder: (context) => const ChangeColorView(),)),
             BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state.status == AuthStatus.success) {

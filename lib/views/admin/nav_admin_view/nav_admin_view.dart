@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ncc_app/views/admin/home_admin_view/home_admin_view.dart';
+import 'package:ncc_app/views/admin/order_admin_view/order_admin_view.dart';
 import 'package:ncc_app/views/admin/settings_admin/settings_admin.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -30,10 +31,7 @@ class _NavAdminViewState extends State<NavAdminView> {
         'body': const ExploreView(),
       },
       {
-        'body': Container(
-          alignment: Alignment.center,
-          child: Icon(Icons.favorite,color: Colors.black,),
-        ),
+        'body': const OrderAdminView(),
       },
       {
         'body': const SettingsAdmin(),

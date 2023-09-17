@@ -26,7 +26,7 @@ class CartButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 19,
             fontWeight: FontWeight.w500,
-            color: Color1.black,
+            color: Color1.white,
           ),
         ),
       ),

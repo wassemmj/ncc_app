@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ncc_app/core/color1.dart';
 
 import '../../../core/style.dart';
 
@@ -31,7 +32,7 @@ class _SwitchAuthState extends State<SwitchAuth> {
             onPressed: widget.f,
             child: Text(
               widget.login ? 'Sing up' : 'Sign in',
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16,color: Color1.primaryColor),
             ))
       ],
     );

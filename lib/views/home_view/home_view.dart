@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncc_app/logic/home_cubit/home_cubit.dart';
+import 'package:ncc_app/logic/home_cubit/home_cubit.dart';
 import 'package:ncc_app/views/home_view/widget/home_advert.dart';
 import 'package:ncc_app/views/home_view/widget/home_list_product.dart';
-import 'package:ncc_app/views/home_view/widget/home_product.dart';
 import 'package:ncc_app/views/home_view/widget/home_text.dart';
 
-import '../../core/style.dart';
+import '../../core/color1.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -15,27 +17,67 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await BlocProvider.of<HomeCubit>(context).getHome('desc');
+    });
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    print((height / 3.9));
     return SafeArea(
       child: SingleChildScrollView(
-        physics: height >= 800 ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
-        child: Container(
-          padding: EdgeInsets.all((height / 43.37)),
-          child: Column(
-            children: [
-              const HomeAdvert(),
-              SizedBox(height: height / 43),
-              const HomeText(text1: 'New Arrival', text2: 'See all',),
-              SizedBox(height: height / 86.74),
-              const HomeListProduct(),
-              const HomeText(text1: 'Best Seller', text2: 'See all',),
-              SizedBox(height: height / 86.74),
-              const HomeListProduct(),
-            ],
-          ),
+        physics: const BouncingScrollPhysics(),
+        child: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            if (state.status == HomeStatus.initial ||
+                state.status == HomeStatus.loading) {
+              return Container(
+                alignment: Alignment.center,
+                height: height,
+                child: CircularProgressIndicator(
+                  color: Color1.primaryColor,
+                  strokeWidth: 1,
+                ),
+              );
+            }
+            if (BlocProvider.of<HomeCubit>(context).newProduct == null ||
+                BlocProvider.of<HomeCubit>(context).discountProduct == null) {
+              return Container(
+                alignment: Alignment.center,
+                height: height,
+                child: CircularProgressIndicator(
+                  color: Color1.primaryColor,
+                  strokeWidth: 1,
+                ),
+              );
+            }
+            var newProduct = BlocProvider.of<HomeCubit>(context).newProduct;
+            var discountProduct = BlocProvider.of<HomeCubit>(context).discountProduct;
+            return Container(
+              padding: EdgeInsets.only(left : (height * 0.02),top: (height * 0.02),right: (height * 0.02)),
+              child: Column(
+                children: [
+                  const HomeAdvert(),
+                  SizedBox(height: height * 0.02),
+                  const HomeText(
+                    text1: 'New Arrival',
+                    text2: 'See all',
+                  ),
+                  SizedBox(height: height * 0.015),
+                  HomeListProduct(product: newProduct['products'],),
+                  SizedBox(height: height * 0.005),
+                  const HomeText(
+                    text1: 'Best Seller',
+                    text2: 'See all',
+                  ),
+                  SizedBox(height: height * 0.015),
+                  HomeListProduct(product: discountProduct['products'],),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

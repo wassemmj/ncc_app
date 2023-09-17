@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ncc_app/views/admin/awidget/custom_text_from_field.dart';
 import 'package:ncc_app/views/admin/create_category/widget/create_button.dart';
 
-import '../../../core/color1.dart';
 import '../../../core/style.dart';
 import '../../nav_view/widget/appbar_icon.dart';
 
@@ -39,7 +38,7 @@ class _CreateCategoryState extends State<CreateCategory> {
               SizedBox(height: height * 0.05),
               CustomTextFromField(controller: catName, hint: 'Category Name', iconData: Icons.category_outlined),
               SizedBox(height: height * 0.02),
-              const CreateButton(),
+              CreateButton(type: catName.text,),
             ],
           ),
         ),

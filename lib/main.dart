@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncc_app/logic/account_cubit/account_cubit.dart';
 import 'package:ncc_app/logic/auth_cubit/auth_cubit.dart';
+import 'package:ncc_app/logic/cat_cubit/cat_cubit.dart';
+import 'package:ncc_app/logic/create_cubit/create_cubit.dart';
+import 'package:ncc_app/logic/delete_cubit/delete_cubit.dart';
+import 'package:ncc_app/logic/discount_cubit/discount_cubit.dart';
+import 'package:ncc_app/logic/fav_cubit/fav_cubit.dart';
+import 'package:ncc_app/logic/home_cubit/home_cubit.dart';
+import 'package:ncc_app/logic/user_cubit/user_cubit.dart';
 import 'package:ncc_app/views/auth_view/login_view.dart';
 
 import 'core/color1.dart';
@@ -11,7 +19,31 @@ void main() {
       providers: [
         BlocProvider(
           create: (context) => AuthCubit(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => CatCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CreateCubit(),
+        ),
+        BlocProvider(
+          create: (context) => DeleteCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UserCubit(),
+        ),
+        BlocProvider(
+          create: (context) => DiscountCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FavCubit(),
+        ),
+        BlocProvider(
+          create: (context) => HomeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AccountCubit(),
+        ),
       ],
       child: const MyApp(),
     ),

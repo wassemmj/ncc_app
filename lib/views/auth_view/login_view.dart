@@ -18,12 +18,11 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  var emailController = TextEditingController(text: 'wassem125@gmailcom');
-  var passwordController = TextEditingController(text: '123456789@w');
-  var passwordCoController = TextEditingController(text: '123456789@w');
+  var emailController = TextEditingController(text: 'userTest2@gmail.com');
+  var passwordController = TextEditingController(text: '0959860097');
+  var passwordCoController = TextEditingController(text: '123456789');
   var usernameController = TextEditingController(text: 'wasm');
 
-  // var addressController = TextEditingController();
   GlobalKey formKey = GlobalKey();
 
   bool obscure = true, obscure1 = true;

@@ -17,9 +17,11 @@ class HomeText extends StatelessWidget {
           text1,
           style: Style.textStyle22,
         ),
-        Text(
-          text2,
-          style: Style.textStyle14,
+        InkWell(
+          child: Text(
+            text2,
+            style: Style.textStyle14,
+          ),
         ),
       ],
     );

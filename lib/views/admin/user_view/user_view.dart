@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncc_app/logic/user_cubit/user_cubit.dart';
 import 'package:ncc_app/views/admin/user_view/widget/user_widget.dart';
 
 import '../../../core/color1.dart';
@@ -14,26 +15,60 @@ class UserView extends StatefulWidget {
 }
 
 class _UserViewState extends State<UserView> {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await BlocProvider.of<UserCubit>(context).getAllUser();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: Container(padding: EdgeInsets.all((height / 108)),child: AppbarIcon(icon: Icons.arrow_back, onPressed: () {Navigator.of(context).pop();})),
+        leading: Container(
+            padding: EdgeInsets.all((height / 108)),
+            child: AppbarIcon(
+                icon: Icons.arrow_back,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })),
         title: Text(
           'All User',
           style: Style.textStyle23,
         ),
       ),
-      body: SafeArea(
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return const UserWidget();
-          },
-        ),
+      body: BlocBuilder<UserCubit, UserState>(
+        builder: (context, state) {
+          if(state.status == UserStatus.loading) {
+            return Container(
+              alignment: Alignment.center,
+              height: height * 0.8,
+              child: CircularProgressIndicator(color: Color1.primaryColor,strokeWidth: 1,),
+            );
+          }
+          if(BlocProvider.of<UserCubit>(context).users == null) {
+            return Container(
+              alignment: Alignment.center,
+              height: height * 0.8,
+              child: CircularProgressIndicator(color: Color1.primaryColor,strokeWidth: 1,),
+            );
+          }
+          var users = BlocProvider.of<UserCubit>(context).users['users'];
+          return SafeArea(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                return UserWidget(email: users[index]['email'], name: users[index]['name'], role: users[index]['role'], userId: users[index]['id'],);
+              },
+            ),
+          );
+        },
       ),
     );
   }

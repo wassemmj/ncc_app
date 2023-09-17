@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/color1.dart';
+
 class HomeAdvert extends StatelessWidget {
   const HomeAdvert({Key? key}) : super(key: key);
 
@@ -41,7 +43,7 @@ class HomeAdvert extends StatelessWidget {
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25))),
-                    backgroundColor: MaterialStateProperty.all(Colors.orange),
+                    backgroundColor: MaterialStateProperty.all(Color1.primaryColor),
                   ),
                   child: const Text(
                     'Shop now',
@@ -86,7 +88,7 @@ class HomeAdvert extends StatelessWidget {
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25))),
-                    backgroundColor: MaterialStateProperty.all(Colors.orange),
+                    backgroundColor: MaterialStateProperty.all(Color1.primaryColor),
                   ),
                   child: const Text(
                     'Shop now',

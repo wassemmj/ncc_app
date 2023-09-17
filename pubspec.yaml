@@ -50,6 +50,7 @@ dependencies:
   flutter_slidable:
   flutter_advanced_drawer:
   shrink_sidemenu: ^2.0.0+2-null-safety
+  flutter_colorpicker:
 
 dev_dependencies:
   flutter_test:
