@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/views/auth_view/login_view.dart';
+import 'package:ncc_app/views/fav_view/fav_view.dart';
 
 import '../../core/color1.dart';
 import '../../logic/auth_cubit/auth_cubit.dart';
@@ -43,7 +44,7 @@ class MainDrawer extends StatelessWidget {
               child: const Text(
                 'Napoli Trading Company',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 28,
                   fontWeight: FontWeight.w900,
                   color: Color1.white,
                 ),
@@ -52,7 +53,9 @@ class MainDrawer extends StatelessWidget {
             buildListTile(
               'Favorites',
               Icons.favorite_border,
-              () {},
+              () { Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>  FavView(),
+              ));},
               context,
             ),
             buildListTile(
@@ -75,9 +78,7 @@ class MainDrawer extends StatelessWidget {
                   () async {
                     await BlocProvider.of<AuthCubit>(context).logout();
                     if (state.status == AuthStatus.success) {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const LoginView(),
-                      ));
+
                     }
                   },
                   context,

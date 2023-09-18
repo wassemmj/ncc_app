@@ -9,10 +9,10 @@ import '../../../logic/fav_cubit/fav_cubit.dart';
 class HomeProduct extends StatefulWidget {
   const HomeProduct(
       {Key? key,
-      required this.name,
-      required this.image,
-      required this.brand,
-      required this.price, required this.id})
+        required this.name,
+        required this.image,
+        required this.brand,
+        required this.price, required this.id})
       : super(key: key);
 
   final String name;
@@ -83,7 +83,7 @@ class _HomeProductState extends State<HomeProduct> {
                 ),
                 SizedBox(width: width / 10),
                 FavButton(
-                    id: widget.id,),
+                  id: widget.id,),
               ],
             ),
           ],

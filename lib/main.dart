@@ -10,6 +10,7 @@ import 'package:ncc_app/logic/fav_cubit/fav_cubit.dart';
 import 'package:ncc_app/logic/home_cubit/home_cubit.dart';
 import 'package:ncc_app/logic/user_cubit/user_cubit.dart';
 import 'package:ncc_app/views/auth_view/login_view.dart';
+import 'package:ncc_app/views/details_view/details_view.dart';
 
 import 'core/color1.dart';
 

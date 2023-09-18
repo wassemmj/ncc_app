@@ -17,6 +17,15 @@ abstract class Style {
     fontSize: 30,
     fontWeight: FontWeight.w800,
   );
+  static const  textStyle24 = TextStyle(
+    color: Color1.black,
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+  ); static const  textStyle20 = TextStyle(
+    color: Color1.black,
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+  );
 
   static var   textStyle23 = TextStyle(
     color: Color1.black.withOpacity(0.9),

@@ -202,7 +202,7 @@ class _LoginViewState extends State<LoginView> {
                       SizedBox(height: height * 0.03),
                       AuthButton(
                         login: login,
-                        onPressed: onPressed,
+                        onPressed:()=> Navigator.of(context).push(MaterialPageRoute(builder:(context)=>NavView() )),
                       ),
                       SwitchAuth(
                           login: login,

@@ -4,16 +4,16 @@ import 'package:ncc_app/core/style.dart';
 import 'package:ncc_app/views/admin/nav_admin_view/nav_admin_view.dart';
 import 'package:ncc_app/views/cart_view/cart_view.dart';
 import 'package:ncc_app/views/explore_view/explore_view.dart';
+import 'package:ncc_app/views/fav_view/fav_view.dart';
 import 'package:ncc_app/views/home_view/home_view.dart';
 import 'package:ncc_app/views/nav_view/widget/appbar_icon.dart';
-import 'package:ncc_app/views/nav_view/widget/drawer_widget.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../../core/color1.dart';
 import '../../logic/auth_cubit/auth_cubit.dart';
 import '../auth_view/login_view.dart';
-import '../fav_view/fav_view.dart';
+import '../awidget/main_drawer.dart';
 
 class NavView extends StatefulWidget {
   const NavView({Key? key}) : super(key: key);
@@ -214,28 +214,48 @@ class _NavViewState extends State<NavView> {
               ],
             ),
           ),
-          DrawerWidget(
-              f: () {
-                toggleMenu(true);
-              },
-              text: 'Home',
-              iconData: Icons.home),
-          DrawerWidget(
-              f: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FavView(),)),
-              text: 'Favorites',
-              iconData: Icons.favorite_border),
-          DrawerWidget(
-              f: () {},
-              text: 'Settings',
-              iconData: Icons.settings),
-          DrawerWidget(
-              f: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const NavAdminView(),
-                ));
-              },
-              text: 'admin',
-              iconData: Icons.admin_panel_settings_outlined),
+          ListTile(
+            onTap: () {
+              toggleMenu(true);
+            },
+            leading: const Icon(Icons.home, size: 20.0, color: Colors.black),
+            title: const Text("Home"),
+            textColor: Colors.black,
+            dense: true,
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=> FavView()));
+            },
+            leading: const Icon(Icons.favorite_border,
+                size: 20.0, color: Colors.black),
+            title: const Text("Favorites"),
+            textColor: Color1.black,
+            dense: true,
+            // padding: EdgeInsets.zero,
+          ),
+          ListTile(
+            onTap: () {},
+            leading:
+                const Icon(Icons.settings, size: 20.0, color: Colors.black),
+            title: const Text("Settings"),
+            textColor: Colors.black,
+            dense: true,
+
+            // padding: EdgeInsets.zero,
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => NavAdminView(),));
+            },
+            leading:
+                const Icon(Icons.admin_panel_settings, size: 20.0, color: Colors.black),
+            title: const Text("admin"),
+            textColor: Colors.black,
+            dense: true,
+
+            // padding: EdgeInsets.zero,
+          ),
           BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state.status == AuthStatus.success) {
@@ -244,17 +264,23 @@ class _NavViewState extends State<NavView> {
               }
             },
             builder: (context, state) {
-              return DrawerWidget(
-                  f: () async {
-                    await BlocProvider.of<AuthCubit>(context).logout();
-                    if (state.status == AuthStatus.success) {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const LoginView(),
-                      ));
-                    }
-                  },
-                  text: 'Log out',
-                  iconData: Icons.logout_rounded);
+              return ListTile(
+                onTap: () async {
+                  await BlocProvider.of<AuthCubit>(context).logout();
+                  if (state.status == AuthStatus.success) {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const LoginView(),
+                    ));
+                  }
+                },
+                leading: const Icon(Icons.logout_rounded,
+                    size: 20.0, color: Colors.black),
+                title: const Text("log out"),
+                textColor: Colors.black,
+                dense: true,
+
+                // padding: EdgeInsets.zero,
+              );
             },
           ),
         ],
