@@ -21,7 +21,7 @@ class _CreateCategoryState extends State<CreateCategory> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        leading: Container(padding: EdgeInsets.all((height / 108)),child: AppbarIcon(icon: Icons.arrow_back, onPressed: () {Navigator.of(context).pop();})),
+        leading: Container(padding: EdgeInsets.all((height / 108)),child: AppbarIcon(icon: Icons.arrow_back, onPressed: () {Navigator.of(context).pop();}, color: Colors.black54.withOpacity(0.03),)),
       ),
       body: SafeArea(
         child: Container(

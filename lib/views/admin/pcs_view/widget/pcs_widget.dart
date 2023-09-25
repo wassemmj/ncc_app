@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ncc_app/logic/delete_cubit/delete_cubit.dart';
+import 'package:ncc_app/views/admin/awidget/discount_body.dart';
+import 'package:ncc_app/views/admin/awidget/discount_choice.dart';
+import 'package:ncc_app/views/admin/awidget/edit_alert.dart';
 import 'package:ncc_app/views/admin/section_admin_view/section_admin_view.dart';
 
 import '../../../../core/color1.dart';
@@ -41,6 +44,15 @@ class _PCSWidgetState extends State<PCSWidget> {
               icon: Icons.delete,
             ),
           ),
+          SlidableAction(
+            key: const ValueKey(0),
+            onPressed: (context) {
+              showDialog(context: context, builder: (context) => DiscountChoice(id: widget.category['id'], type: 2, deleteId: widget.category['id'],),);
+            },
+            backgroundColor: Color1.white,
+            foregroundColor: const Color(0xFFFE4A49),
+            icon: Icons.percent_outlined,
+          ),
         ],
       ),
       endActionPane: ActionPane(
@@ -49,7 +61,9 @@ class _PCSWidgetState extends State<PCSWidget> {
         children: [
           SlidableAction(
             key: const ValueKey(0),
-            onPressed: (context) {},
+            onPressed: (context) {
+              showDialog(context: context, builder: (context) => EditAlert(id: widget.category['id'], last: widget.category['type'], cat: true, ),);
+            },
             backgroundColor: Color1.white,
             foregroundColor: Color1.black,
             icon: Icons.edit,

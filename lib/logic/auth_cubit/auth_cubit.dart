@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ncc_app/data/repo/auth_repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/token.dart';
 import '../../data/models/auth_model.dart';
@@ -13,9 +14,12 @@ class AuthCubit extends Cubit<AuthState> {
   Future register(AuthModel authModel) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      print('rsrs');
       var auth = await AuthRepo.register(authModel);
       Token.token = auth['token'];
-      // Id.id = auth['user']['id'];
+      prefs.setBool("isLoggedIn", true);
+      prefs.setInt("role", 0);
       emit(state.copyWith(
           status: AuthStatus.success,
           authModel: authModel,
@@ -30,7 +34,9 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       var auth = await AuthRepo.login(authModel);
       Token.token = auth['token'];
-      // Id.id = auth['user']['id'];
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isLoggedIn", true);
+      prefs.setInt("role", auth['user']['role']);
       emit(state.copyWith(
           status: AuthStatus.success,
           authModel: authModel,

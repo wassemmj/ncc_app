@@ -46,7 +46,7 @@ class _CreateSectionState extends State<CreateSection> {
                 icon: Icons.arrow_back,
                 onPressed: () {
                   Navigator.of(context).pop();
-                })),
+                }, color: Colors.black54.withOpacity(0.03),)),
       ),
       body: SingleChildScrollView(
         physics: const RangeMaintainingScrollPhysics(),

@@ -5,6 +5,7 @@ import 'package:ncc_app/views/awidget/fav_button.dart';
 import '../../../core/api.dart';
 import '../../../core/style.dart';
 import '../../../logic/fav_cubit/fav_cubit.dart';
+import '../../details_view/details_view.dart';
 
 class HomeProduct extends StatefulWidget {
   const HomeProduct(
@@ -33,60 +34,65 @@ class _HomeProductState extends State<HomeProduct> {
     double width = MediaQuery.of(context).size.width;
     return Row(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: width * 0.5,
-              height: height * 0.13,
-              decoration: BoxDecoration(
-                  color: Colors.black12.withOpacity(0.04),
-                  borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                        '${Api.apiImage}/images/${widget.image}',
-                      ),
-                      fit: BoxFit.contain)),
-            ),
-            SizedBox(height: height * 0.01),
-            SizedBox(
-              width: width / 2.2,
-              child: Text(
-                widget.name,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17),
-                maxLines: 3,
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsView(productId: widget.id,),));
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: width * 0.5,
+                height: height * 0.13,
+                decoration: BoxDecoration(
+                    color: Colors.black12.withOpacity(0.04),
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                          '${Api.apiImage}/images/${widget.image}',
+                        ),
+                        fit: BoxFit.contain)),
               ),
-            ),
-            SizedBox(height: height * 0.01),
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.brand,
-                      style: Style.textStyle14,
-                    ),
-                    SizedBox(height: height * 0.01),
-                    Text(
-                      '${widget.price} JOD',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17),
-                    ),
-                  ],
+              SizedBox(height: height * 0.01),
+              SizedBox(
+                width: width / 2.2,
+                child: Text(
+                  widget.name,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17),
+                  maxLines: 3,
                 ),
-                SizedBox(width: width / 10),
-                FavButton(
-                  id: widget.id,),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(height: height * 0.01),
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.brand,
+                        style: Style.textStyle14,
+                      ),
+                      SizedBox(height: height * 0.01),
+                      Text(
+                        '${widget.price} JOD',
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: width / 10),
+                  FavButton(
+                    id: widget.id,),
+                ],
+              ),
+            ],
+          ),
         ),
         SizedBox(width: width * 0.05),
       ],

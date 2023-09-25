@@ -22,12 +22,20 @@ class _SectorViewState extends State<SectorView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      BlocProvider.of<CatCubit>(context).getSector(widget.secId, 'desc');
+      await BlocProvider.of<CatCubit>(context,listen: false).getSector(widget.secId, 'desc');
     });
     super.initState();
   }
 
   int pageIndex = 0;
+
+  String? value = 'desc';
+  List<String> items = [
+    'desc',
+    'asc',
+    'Hprice',
+    'Lprice',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,7 @@ class _SectorViewState extends State<SectorView> {
                 icon: Icons.arrow_back,
                 onPressed: () {
                   Navigator.of(context).pop();
-                })),
+                }, color: Colors.black54.withOpacity(0.03),)),
       ),
       body: SafeArea(
         child: BlocBuilder<CatCubit, CatState>(
@@ -79,13 +87,39 @@ class _SectorViewState extends State<SectorView> {
               return SectorWidget(sectors: sectors);
             }
             var pageUrl = sector['products']['links'];
-            return ProductOut(pageIndex: pageIndex, product: sector, onPressed: (index) async {
-              setState(() {
-                pageIndex = index;
-              });
-              await BlocProvider.of<CatCubit>(context)
-                  .api(pageUrl[index + 1]['url']);
-            },);
+            return Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(right: width * 0.05),
+                  height: height * 0.045,
+                  alignment: Alignment.topRight,
+                  child: DropdownButton(
+                    items: items.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text(items),
+                      );
+                    }).toList(),
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    value: value,
+                    onChanged: (values) async {
+                      setState(() {
+                        value = values;
+                      });
+                      await BlocProvider.of<CatCubit>(context).getSector(widget.secId, values!);
+                    },
+                    iconEnabledColor: Color1.primaryColor,
+                  ),
+                ),
+                ProductOut(pageIndex: pageIndex, product: sector, onPressed: (index) async {
+                  setState(() {
+                    pageIndex = index;
+                  });
+                  await BlocProvider.of<CatCubit>(context)
+                      .api(pageUrl[index + 1]['url']);
+                },),
+              ],
+            );
           },
         ),
       ),

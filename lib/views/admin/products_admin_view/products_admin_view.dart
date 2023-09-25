@@ -44,7 +44,7 @@ class _ProductsAdminViewState extends State<ProductsAdminView> {
           padding: EdgeInsets.all((height / 108)),
           child: AppbarIcon(
             icon: Icons.arrow_back,
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).pop(), color: Colors.black54.withOpacity(0.03),
           ),
         ),
         actions: [
@@ -54,7 +54,7 @@ class _ProductsAdminViewState extends State<ProductsAdminView> {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const CreateProduct(),
               ));
-            },
+            }, color: Colors.black54.withOpacity(0.03),
           ),
           SizedBox(width: (width / 41)),
         ],
@@ -118,8 +118,8 @@ class _ProductsAdminViewState extends State<ProductsAdminView> {
                                   productId: e['id'],
                                   name: e['name'],
                                   image: e['image'],
-                                  brand: 'Asus Laptop',
-                                  price: e['final_price'],
+                                  brand: e['Brand'],
+                                  price: e['final_price'], discountId: e['discount_id'],
                                 ))
                             .toList(),
                       ),
@@ -134,7 +134,7 @@ class _ProductsAdminViewState extends State<ProductsAdminView> {
                                 await BlocProvider.of<CatCubit>(context)
                                     .api(pageUrl[index + 1]['url']);
                               })
-                          : const ProductEmpty(),
+                          : Container(),
                       SizedBox(height: pageCount != 1 ? height * 0.02 : 0),
                     ],
                   ),

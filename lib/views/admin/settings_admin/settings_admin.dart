@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/views/admin/adverts_admin/adverts_admin.dart';
 import 'package:ncc_app/views/admin/change_color_view/change_color_view.dart';
+import 'package:ncc_app/views/admin/company_info_view/company_info_view.dart';
 import 'package:ncc_app/views/admin/create_category/create_category.dart';
 import 'package:ncc_app/views/admin/create_product/create_product.dart';
 import 'package:ncc_app/views/admin/create_section/create_section.dart';
@@ -65,6 +66,11 @@ class _SettingsAdminState extends State<SettingsAdmin> {
                 function: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const AdvertsAdmin(),
                     ))),
+            SettingsAdminWidget(
+                text: 'Contact Us',
+                function: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CompanyInfoView(),
+                ))),
             SettingsAdminWidget(
                 text: 'Change Color',
                 function: () => showDialog(context: context, builder: (context) => const ChangeColorView(),)),

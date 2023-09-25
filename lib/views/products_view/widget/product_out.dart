@@ -7,12 +7,25 @@ import '../../../logic/cat_cubit/cat_cubit.dart';
 import '../../admin/products_admin_view/widget/product_empty.dart';
 import '../../admin/products_admin_view/widget/product_page_count.dart';
 
-class ProductOut extends StatelessWidget {
+class ProductOut extends StatefulWidget {
   const ProductOut({Key? key, required this.pageIndex, required this.onPressed, required this.product}) : super(key: key);
 
   final int pageIndex;
   final Function(int index) onPressed;
   final Map product;
+
+  @override
+  State<ProductOut> createState() => _ProductOutState();
+}
+
+class _ProductOutState extends State<ProductOut> {
+  String? value = 'desc';
+  List<String> items = [
+    'desc',
+    'asc',
+    'Hprice',
+    'Lprice',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +47,8 @@ class ProductOut extends StatelessWidget {
             );
           }
           var products;
-          if (pageIndex == 0) {
-            products = product['products'];
+          if (widget.pageIndex == 0) {
+            products = widget.product['products'];
           } else {
             products = BlocProvider.of<CatCubit>(context).product['products'];
           }
@@ -49,7 +62,7 @@ class ProductOut extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                total == 0 ?GridView.extent(
+                total != 0 ? GridView.extent(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisSpacing: 15,
@@ -67,8 +80,8 @@ class ProductOut extends StatelessWidget {
                       .toList(),
                 ) : Container(),
                 pageCount != 1
-                    ? ProductPageCount(pageCount: pageCount, pageIndex: pageIndex, onPressed: onPressed)
-                    : const ProductEmpty(),
+                    ? ProductPageCount(pageCount: pageCount, pageIndex: widget.pageIndex, onPressed: widget.onPressed)
+                    : Container(),
                 SizedBox(height: pageCount != 1 ? height * 0.03 : 0),
               ],
             ),

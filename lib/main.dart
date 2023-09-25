@@ -2,19 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/logic/account_cubit/account_cubit.dart';
 import 'package:ncc_app/logic/auth_cubit/auth_cubit.dart';
+import 'package:ncc_app/logic/cart_cubit/cart_cubit.dart';
 import 'package:ncc_app/logic/cat_cubit/cat_cubit.dart';
 import 'package:ncc_app/logic/create_cubit/create_cubit.dart';
 import 'package:ncc_app/logic/delete_cubit/delete_cubit.dart';
+import 'package:ncc_app/logic/details_cubit/details_cubit.dart';
 import 'package:ncc_app/logic/discount_cubit/discount_cubit.dart';
 import 'package:ncc_app/logic/fav_cubit/fav_cubit.dart';
+import 'package:ncc_app/logic/footer_cubit/footer_cubit.dart';
 import 'package:ncc_app/logic/home_cubit/home_cubit.dart';
+import 'package:ncc_app/logic/notification_cubit/notification_cubit.dart';
+import 'package:ncc_app/logic/order_user_cubit/order_user_cubit.dart';
+import 'package:ncc_app/logic/status_cubit/status_cubit.dart';
 import 'package:ncc_app/logic/user_cubit/user_cubit.dart';
+import 'package:ncc_app/views/admin/nav_admin_view/nav_admin_view.dart';
 import 'package:ncc_app/views/auth_view/login_view.dart';
-import 'package:ncc_app/views/details_view/details_view.dart';
+import 'package:ncc_app/views/nav_view/nav_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/color1.dart';
+import 'logic/add_cubit/add_cubit.dart';
+import 'logic/edit_cubit/edit_cubit.dart';
+import 'logic/order_admin_cubit/order_admin_cubit.dart';
 
-void main() {
+void main() async {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // var status = prefs.getBool('isLoggedIn') ?? false;
+  // var statys = prefs.getInt('role');
   runApp(
     MultiBlocProvider(
       providers: [
@@ -45,14 +59,64 @@ void main() {
         BlocProvider(
           create: (context) => AccountCubit(),
         ),
+        BlocProvider(
+          create: (context) => FooterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => EditCubit(),
+        ),
+        BlocProvider(
+          create: (context) => DetailsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CartCubit(),
+        ),
+        BlocProvider(
+          create: (context) => OrderUserCubit(),
+        ),
+        BlocProvider(
+          create: (context) => OrderAdminCubit(),
+        ),
+        BlocProvider(
+          create: (context) => StatusCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AddCubit(),
+        ),
+        BlocProvider(
+          create: (context) => NotificationCubit(),
+        ),
       ],
-      child: const MyApp(),
+      child: const MyApp()
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  bool status = true;
+  var statys;
+
+  @override
+  void initState() {
+    super.initState();
+    g();
+  }
+
+  void g() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      status = prefs.getBool('isLoggedIn') ?? false;
+      statys = prefs.getInt('role');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +124,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          splashColor: Colors.transparent,
+          // splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           // hoverColor: Colors.transparent,
           appBarTheme: const AppBarTheme(
@@ -72,6 +136,7 @@ class MyApp extends StatelessWidget {
           ),
           scaffoldBackgroundColor: Color1.white,
         ),
-        home: const LoginView());
+        home: status ? const LoginView() : statys == 0 ? const NavView() : const NavAdminView() ,
+    );
   }
 }

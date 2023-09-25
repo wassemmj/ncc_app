@@ -36,7 +36,7 @@ class _UserViewState extends State<UserView> {
                 icon: Icons.arrow_back,
                 onPressed: () {
                   Navigator.of(context).pop();
-                })),
+                }, color: Colors.black54.withOpacity(0.03),)),
         title: Text(
           'All User',
           style: Style.textStyle23,

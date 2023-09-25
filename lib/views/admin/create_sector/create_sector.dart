@@ -44,7 +44,7 @@ class _CreateSectorState extends State<CreateSector> {
                 icon: Icons.arrow_back,
                 onPressed: () {
                   Navigator.of(context).pop();
-                })),
+                }, color: Colors.black54.withOpacity(0.03),)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -94,7 +94,7 @@ class _CreateSectorState extends State<CreateSector> {
                         valueSec = 'Select Type';
                         id = l[0]['id'];
                       });
-                      await BlocProvider.of<CatCubit>(context).getSec(id);
+                      await BlocProvider.of<CatCubit>(context).getSec(id,'desc');
                     }, items: items, value: value!),
                     SizedBox(height: height * 0.02),
                     value!='Select Type'? Builder(builder: (context) {

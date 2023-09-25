@@ -43,7 +43,7 @@ class _SectorsAdminViewState extends State<SectorsAdminView> {
                 icon: Icons.arrow_back,
                 onPressed: () {
                   Navigator.of(context).pop();
-                })),
+                }, color: Colors.black54.withOpacity(0.03),)),
         actions: [
           AppbarIcon(
               icon: Icons.add,
@@ -51,7 +51,7 @@ class _SectorsAdminViewState extends State<SectorsAdminView> {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const CreateSector(),
                 ));
-              }),
+              }, color: Colors.black54.withOpacity(0.03),),
           SizedBox(width: (width / 82)),
         ],
       ),

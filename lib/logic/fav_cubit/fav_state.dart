@@ -1,6 +1,5 @@
 part of 'fav_cubit.dart';
 
-
 enum FavStatus {
   initial,
   loading,

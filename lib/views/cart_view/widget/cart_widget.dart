@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ncc_app/logic/cart_cubit/cart_cubit.dart';
+import 'package:ncc_app/logic/cart_cubit/cart_cubit.dart';
 
+import '../../../core/api.dart';
 import '../../../core/color1.dart';
 import '../../../core/style.dart';
 import 'increment_cart.dart';
 
-class CartWidget extends StatefulWidget {
-  const CartWidget({Key? key}) : super(key: key);
+class CartWidget extends StatelessWidget {
+  const CartWidget(
+      {Key? key,
+      required this.name,
+      required this.id,
+      required this.brand,
+      required this.price,
+      required this.image,
+      required this.quantity, required this.productId})
+      : super(key: key);
 
-  @override
-  State<CartWidget> createState() => _CartWidgetState();
-}
+  final String name;
+  final int id;
+  final int productId;
+  final String brand;
+  final String price;
+  final String image;
+  final int quantity;
 
-class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -21,15 +36,22 @@ class _CartWidgetState extends State<CartWidget> {
       startActionPane: ActionPane(
         motion: const StretchMotion(),
         key: const ValueKey(0),
-        children:  [
-          SlidableAction(
-            key: const ValueKey(0),
-            onPressed: (context){
-              print('delete');
+        children: [
+          BlocListener<CartCubit, CartState>(
+            listener: (context, state) {
+              if(state.status == CartStatus.success) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('deleted successfully')));
+              }
             },
-            backgroundColor: Color1.white,
-            foregroundColor: const Color(0xFFFE4A49),
-            icon: Icons.delete,
+            child: SlidableAction(
+              key: const ValueKey(0),
+              onPressed: (context) async {
+                await BlocProvider.of<CartCubit>(context).deleteItem(id);
+              },
+              backgroundColor: Color1.white,
+              foregroundColor: const Color(0xFFFE4A49),
+              icon: Icons.delete,
+            ),
           ),
         ],
       ),
@@ -38,8 +60,8 @@ class _CartWidgetState extends State<CartWidget> {
         margin: EdgeInsets.all(height * 0.022),
         decoration: const BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: Colors.black54, width: 0.2),
-            )),
+          bottom: BorderSide(color: Colors.black54, width: 0.2),
+        )),
         child: Row(
           children: [
             Container(
@@ -48,47 +70,47 @@ class _CartWidgetState extends State<CartWidget> {
               decoration: BoxDecoration(
                   color: Colors.black12.withOpacity(0.04),
                   borderRadius: BorderRadius.circular(25),
-                  image: const DecorationImage(
-                      image: AssetImage(
-                        'image/asus.png',
+                  image: DecorationImage(
+                      image: NetworkImage(
+                        '${Api.apiImage}/images/$image',
                       ),
                       fit: BoxFit.contain)),
             ),
-            const SizedBox(
-              width: 15,
+            SizedBox(
+              width: width * 0.02,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   width: width / 2.2,
-                  child: const Text(
-                    'Huawei Book kva 2023',
-                    style: TextStyle(
+                  child: Text(
+                    name,
+                    style: const TextStyle(
                         letterSpacing: 0,
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: 17),
-                    maxLines: 2,
+                    maxLines: 3,
                   ),
                 ),
                 SizedBox(height: (height / 85)),
-                const Text(
-                  'Huawei laptop',
+                Text(
+                  brand,
                   style: Style.textStyle14,
                 ),
                 SizedBox(height: (height / 85)),
                 Row(
                   children: [
-                    const Text(
-                      '120 JOD',
-                      style: TextStyle(
+                    Text(
+                      '$price JOD',
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                           fontSize: 17),
                     ),
-                    SizedBox(width: (width * 0.2)),
-                    const IncrementCart(),
+                    SizedBox(width: (width * 0.1)),
+                    IncrementCart(quantity: quantity, id: id, productId: productId,)
                   ],
                 )
               ],

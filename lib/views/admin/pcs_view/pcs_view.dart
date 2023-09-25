@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ncc_app/views/admin/awidget/discount_button.dart';
 import 'package:ncc_app/views/admin/create_category/create_category.dart';
 import 'package:ncc_app/views/admin/pcs_view/widget/pcs_widget.dart';
 
@@ -38,7 +38,7 @@ class _PCSViewState extends State<PCSView> {
                 icon: Icons.arrow_back,
                 onPressed: () {
                   Navigator.of(context).pop();
-                })),
+                }, color: Colors.black54.withOpacity(0.03),)),
         title: Text(
           'Categories',
           style: Style.textStyle23,
@@ -50,8 +50,9 @@ class _PCSViewState extends State<PCSView> {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const CreateCategory(),
                 ));
-              }),
+              }, color: Colors.black54.withOpacity(0.03),),
           SizedBox(width: (width / 82)),
+          DiscountButton(id: 0, type: 5, deleteId: 0,),
         ],
       ),
       body: SafeArea(

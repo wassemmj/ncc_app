@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/views/admin/home_admin_view/home_admin_view.dart';
+import 'package:ncc_app/views/admin/notification_admin_view/notification_admin_view.dart';
 import 'package:ncc_app/views/admin/order_admin_view/order_admin_view.dart';
 import 'package:ncc_app/views/admin/settings_admin/settings_admin.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../../../core/color1.dart';
 import '../../../core/style.dart';
+import '../../../logic/notification_cubit/notification_cubit.dart';
 import '../../explore_view/explore_view.dart';
 import '../../nav_view/widget/appbar_icon.dart';
+import '../../search_delegate/search_delegate.dart';
 
 class NavAdminView extends StatefulWidget {
   const NavAdminView({Key? key}) : super(key: key);
@@ -18,6 +22,15 @@ class NavAdminView extends StatefulWidget {
 
 class _NavAdminViewState extends State<NavAdminView> {
   var _currentIndex = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await BlocProvider.of<NotificationCubit>(context, listen: false)
+          .getNotification();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +58,13 @@ class _NavAdminViewState extends State<NavAdminView> {
           style: Style.textStyle23,
         ),
         actions: [
-          AppbarIcon(icon: Icons.search_outlined, onPressed: () {}),
+          AppbarIcon(icon: Icons.search_outlined, onPressed: () {
+            showSearch(context: context, delegate: MySearchDelegate());
+          }, color: Colors.black54.withOpacity(0.03),),
           SizedBox(width: (width / 82)),
           AppbarIcon(
               icon: Icons.notifications_none_outlined,
-              onPressed: () {}),
+              onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NotificationAdminView(),));}, color: Colors.black54.withOpacity(0.03),),
           SizedBox(width: (width / 41)),
         ],
       ),

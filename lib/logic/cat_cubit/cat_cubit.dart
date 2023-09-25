@@ -23,10 +23,10 @@ class CatCubit extends Cubit<CatState> {
     }
   }
 
-  Future getSec(int catId) async {
+  Future getSec(int catId,String sort) async {
     emit(state.copyWith(status: CatStatus.loading));
     try {
-      section = await CatRepo.secRepo(catId);
+      section = await CatRepo.secRepo(catId,sort);
       print(section);
       emit(state.copyWith(status: CatStatus.success));
     } catch(e) {

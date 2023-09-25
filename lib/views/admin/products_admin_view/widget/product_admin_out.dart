@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/views/admin/products_admin_view/widget/product_admin_widget.dart';
-import 'package:ncc_app/views/admin/products_admin_view/widget/product_empty.dart';
 import 'package:ncc_app/views/admin/products_admin_view/widget/product_page_count.dart';
 
 import '../../../../core/color1.dart';
@@ -59,15 +58,15 @@ class ProductsAdminOut extends StatelessWidget {
                       .map((e) => ProductAdminWidget(
                     name: e['name'],
                     image: e['image'],
-                    brand: 'Asus Laptop',
+                    brand: e['Brand'],
                     price: e['final_price'],
-                    productId: e['id'],
+                    productId: e['id'], discountId: e['discount_id'] ?? 0,
                   ))
                       .toList(),
                 ),
                 pageCount != 1
                     ? ProductPageCount(pageCount: pageCount, pageIndex: pageIndex, onPressed: onPressed)
-                    : const ProductEmpty(),
+                    : Container(),
                 SizedBox(height: pageCount != 1 ? height * 0.03 : 0),
               ],
             ),

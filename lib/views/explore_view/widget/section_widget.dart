@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ncc_app/core/api.dart';
-import 'package:ncc_app/core/style.dart';
 import 'package:ncc_app/views/admin/products_admin_view/widget/product_empty.dart';
 import 'package:ncc_app/views/explore_view/widget/section.dart';
-import 'package:ncc_app/views/sector_view/sector_view.dart';
 
 import '../../../core/color1.dart';
 import '../../../logic/cat_cubit/cat_cubit.dart';
-import '../../admin/products_admin_view/widget/product_admin_out.dart';
 import '../../products_view/widget/product_out.dart';
-import '../../products_view/widget/product_widget.dart';
 
 class SectionWidget extends StatefulWidget {
   const SectionWidget({Key? key, required this.catId}) : super(key: key);
@@ -25,12 +20,20 @@ class _SectionWidgetState extends State<SectionWidget> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      BlocProvider.of<CatCubit>(context).getSec(widget.catId);
+      await BlocProvider.of<CatCubit>(context,listen: false).getSec(widget.catId,'desc');
     });
     super.initState();
   }
 
   int pageIndex = 0;
+
+  String? value = 'desc';
+  List<String> items = [
+    'desc',
+    'asc',
+    'Hprice',
+    'Lprice',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -85,13 +88,39 @@ class _SectionWidgetState extends State<SectionWidget> {
           );
         } else {
           var pageUrl = sectionM['products']['links'];
-          return ProductOut(pageIndex: pageIndex, product: sectionM, onPressed: (index) async {
-            setState(() {
-              pageIndex = index;
-            });
-            await BlocProvider.of<CatCubit>(context)
-                .api(pageUrl[index + 1]['url']);
-          },);
+          return Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(right: width * 0.05),
+                height: height * 0.045,
+                alignment: Alignment.topRight,
+                child: DropdownButton(
+                  items: items.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  value: value,
+                  onChanged: (values) async {
+                    setState(() {
+                      value = values;
+                    });
+                    await BlocProvider.of<CatCubit>(context).getSec(widget.catId,values!);
+                  },
+                  iconEnabledColor: Color1.primaryColor,
+                ),
+              ),
+              ProductOut(pageIndex: pageIndex, product: sectionM, onPressed: (index) async {
+                setState(() {
+                  pageIndex = index;
+                });
+                await BlocProvider.of<CatCubit>(context)
+                    .api(pageUrl[index + 1]['url']);
+              },),
+            ],
+          );
         }
       },
     );

@@ -3,18 +3,16 @@ class AuthModel {
   String? name;
   String password;
   String? coPassword;
-  String? address;
 
   AuthModel({
     required this.email,
     this.name,
     required this.password,
     this.coPassword,
-    this.address,
   });
 
   factory AuthModel.initial() =>
-      AuthModel(email: '', name: '', password: '', coPassword: '', address: '');
+      AuthModel(email: '', name: '', password: '', coPassword: '');
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
@@ -22,7 +20,6 @@ class AuthModel {
       name: json["name"] ?? '',
       password: json["password"]  ?? '',
       coPassword: json["password_confirmation"] ?? '',
-      address: json["address"] ?? '',
     );
   }
 
@@ -32,7 +29,6 @@ class AuthModel {
       "name": name ?? '',
       "password": password,
       "password_confirmation": coPassword ?? '',
-      "address": address ?? '',
     };
   }
 }

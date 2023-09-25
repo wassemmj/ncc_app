@@ -14,7 +14,6 @@ class FavApi {
           'Authorization': 'Bearer ${Token.token}'
         },
       );
-      print(response.body);
       if(response.statusCode == 200) {
         if(response.body.isEmpty) {
           throw Exception('is Empty');
@@ -38,7 +37,6 @@ class FavApi {
           'Authorization': 'Bearer ${Token.token}'
         },
       );
-      print(response.body);
       if(response.statusCode == 200) {
         if(response.body.isEmpty) {
           throw Exception('is Empty');

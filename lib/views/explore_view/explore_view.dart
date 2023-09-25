@@ -21,7 +21,7 @@ class _ExploreViewState extends State<ExploreView> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await BlocProvider.of<CatCubit>(context).getCat();
       var c = BlocProvider.of<CatCubit>(context).category['category'][0];
-      await BlocProvider.of<CatCubit>(context).getSec(c['id']);
+      await BlocProvider.of<CatCubit>(context).getSec(c['id'],'desc');
     });
     super.initState();
   }
@@ -47,7 +47,7 @@ class _ExploreViewState extends State<ExploreView> {
                 CategoryWidget(
                   set: (index) async{
                     setState(() => currentIndex = index);
-                    await BlocProvider.of<CatCubit>(context).getSec(category[currentIndex]['id']);
+                    await BlocProvider.of<CatCubit>(context).getSec(category[currentIndex]['id'],'desc');
                   },
                   currentIndex: currentIndex,
                   category: category,

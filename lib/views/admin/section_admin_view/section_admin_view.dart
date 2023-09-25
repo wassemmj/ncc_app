@@ -10,7 +10,8 @@ import '../../../logic/cat_cubit/cat_cubit.dart';
 import '../../nav_view/widget/appbar_icon.dart';
 
 class SectionAdminView extends StatefulWidget {
-  const SectionAdminView({Key? key, required this.catId, required this.catName}) : super(key: key);
+  const SectionAdminView({Key? key, required this.catId, required this.catName})
+      : super(key: key);
 
   final int catId;
   final String catName;
@@ -23,7 +24,7 @@ class _SectionAdminViewState extends State<SectionAdminView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      BlocProvider.of<CatCubit>(context).getSec(widget.catId);
+      BlocProvider.of<CatCubit>(context).getSec(widget.catId,'desc');
     });
     super.initState();
   }
@@ -40,22 +41,26 @@ class _SectionAdminViewState extends State<SectionAdminView> {
         leading: Container(
             padding: EdgeInsets.all((height / 108)),
             child: AppbarIcon(
-                icon: Icons.arrow_back,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                })),
+              icon: Icons.arrow_back,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              color: Colors.black54.withOpacity(0.03),
+            )),
         title: Text(
           widget.catName,
           style: Style.textStyle23,
         ),
         actions: [
           AppbarIcon(
-              icon: Icons.add,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const CreateSection(),
-                ));
-              }),
+            icon: Icons.add,
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CreateSection(),
+              ));
+            },
+            color: Colors.black54.withOpacity(0.03),
+          ),
           SizedBox(width: (width / 82)),
         ],
       ),
@@ -85,34 +90,37 @@ class _SectionAdminViewState extends State<SectionAdminView> {
             }
             Map sectionM = BlocProvider.of<CatCubit>(context).section;
             var section;
-            if( section != 'result not found' && sectionM.containsKey('section')) {
-              section = BlocProvider.of<CatCubit>(context).section['section'];
-              return Container(
-                padding: EdgeInsets.all(height * 0.03),
-                height: height,
-                child: GridView.builder(
-                  itemCount: section.length,
-                  physics: const RangeMaintainingScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: height * 0.02,
-                    mainAxisSpacing: height * 0.02,
-                  ),
-                  itemBuilder: (context, index) {
-                    return SectionAdminWidget(id: section[index]['id'], name: section[index]['Section_type'], image: section[index]['Section_image'],);
-                  },
-                ),
-              );
+            if(sectionM['section'] == 'result not found') {
+              return Container();
             }
-            var pageUrl = sectionM['products']['links'];
-            return section != 'result not found' ? ProductsAdminOut(pageIndex: pageIndex, product: sectionM, onPressed: (index) async {
-              setState(() {
-                pageIndex = index;
-              });
-              await BlocProvider.of<CatCubit>(context)
-                  .api(pageUrl[index + 1]['url']);
-            },): Container();
+            if (sectionM.containsKey('section')) {
+              section = BlocProvider.of<CatCubit>(context).section['section'];
+              return ListView.builder(
+                itemCount: section.length,
+                physics: const RangeMaintainingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return SectionAdminWidget(
+                    id: section[index]['id'],
+                    name: section[index]['Section_type'],
+                    image: section[index]['Section_image'],
+                  );
+                },
+              );
+            } else {
+              var pageUrl = sectionM['products']['links'];
+              return ProductsAdminOut(
+                      pageIndex: pageIndex,
+                      product: sectionM,
+                      onPressed: (index) async {
+                        setState(() {
+                          pageIndex = index;
+                        });
+                        await BlocProvider.of<CatCubit>(context)
+                            .api(pageUrl[index + 1]['url']);
+                      },
+                    );
+            }
           },
         ),
       ),

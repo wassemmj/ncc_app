@@ -78,10 +78,10 @@ class UserWidget extends StatelessWidget {
                     name,
                     style: Style.textStyle14,
                   ),
-                  Text(
+                  role == 2 ? Text(
                     role == 1 ?  'Admin' : 'User',
                     style: Style.textStyle17,
-                  ),
+                  ) : Container(),
                 ],
               ),
             ],

@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/fav_cubit/fav_cubit.dart';
 
 class FavButton extends StatefulWidget {
-  const FavButton({Key? key, required this.id,})
-      : super(key: key);
+  const FavButton({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   final int id;
 
@@ -14,20 +16,18 @@ class FavButton extends StatefulWidget {
 }
 
 class _FavButtonState extends State<FavButton> {
-
   bool fav = false;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await BlocProvider.of<FavCubit>(context,listen: false).getFav();
-    });
     super.initState();
     getd();
   }
 
   getd() async {
-    fav = BlocProvider.of<FavCubit>(context).fav['message'].any((product) {
+    var f = BlocProvider.of<FavCubit>(context);
+    await f.getFav();
+    fav = f.fav['message'].any((product) {
       print(product['id']);
       return widget.id == product['id'];
     });
@@ -59,9 +59,7 @@ class _FavButtonState extends State<FavButton> {
           child: IconButton(
             onPressed: () async {
               if (!fav) {
-                await BlocProvider.of<
-                    FavCubit>(context)
-                    .makeFav(widget.id);
+                await BlocProvider.of<FavCubit>(context).makeFav(widget.id);
               } else {
                 print('removed');
               }
@@ -69,7 +67,7 @@ class _FavButtonState extends State<FavButton> {
             },
             icon: Icon(
               fav ? Icons.favorite : Icons.favorite_border,
-              color:fav ? Colors.red : Colors.black,
+              color: fav ? Colors.red : Colors.black,
               size: (height / 39.42),
             ),
           ),

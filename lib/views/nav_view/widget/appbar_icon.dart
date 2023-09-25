@@ -4,9 +4,10 @@ import 'package:ncc_app/core/color1.dart';
 import '../../cart_view/cart_view.dart';
 
 class AppbarIcon extends StatelessWidget {
-  const AppbarIcon({Key? key, required this.icon, required this.onPressed}) : super(key: key);
+  const AppbarIcon({Key? key, required this.icon, required this.onPressed, required this.color}) : super(key: key);
 
   final IconData icon;
+  final Color color;
   final Function() onPressed;
 
   @override
@@ -16,7 +17,7 @@ class AppbarIcon extends StatelessWidget {
     return Container(
       width: (height / 21.68),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: color,
           shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -24,7 +25,7 @@ class AppbarIcon extends StatelessWidget {
         icon: Icon(
           icon,
           color: Color1.black,
-          size: (height / 39.42),
+          size: (height * 0.025),
         ),
       ),
     );

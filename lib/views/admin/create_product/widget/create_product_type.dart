@@ -77,7 +77,7 @@ class _CreateProductTypeState extends State<CreateProductType> {
                   }
                   print(widget.activeId.text);
                 });
-                await BlocProvider.of<CatCubit>(context).getSec(cId);
+                await BlocProvider.of<CatCubit>(context).getSec(cId,'desc');
               },
               items: items,
               value: value,

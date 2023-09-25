@@ -32,6 +32,14 @@ class _ProductsViewState extends State<ProductsView> {
 
   int pageIndex = 0;
 
+  String? value = 'desc';
+  List<String> items = [
+    'desc',
+    'asc',
+    'Hprice',
+    'Lprice',
+  ];
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -42,13 +50,13 @@ class _ProductsViewState extends State<ProductsView> {
             padding: EdgeInsets.all((height / 108)),
             child: AppbarIcon(
               icon: Icons.arrow_back,
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Navigator.of(context).pop(), color: Colors.black54.withOpacity(0.03),
             ),
         ),
         actions: [
           AppbarIcon(
             icon: Icons.more_horiz_outlined,
-            onPressed: () {},
+            onPressed: () {}, color: Colors.black54.withOpacity(0.03),
           ),
           SizedBox(width: (width / 41)),
         ],
@@ -90,10 +98,37 @@ class _ProductsViewState extends State<ProductsView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.name,
-                        style: Style.textStyleSec,
-                      ),
+                      total != 0 ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.name,
+                            style: Style.textStyleSec,
+                          ),
+                          Container(
+                            height: height * 0.045,
+                            alignment: Alignment.topRight,
+                            child: DropdownButton(
+                              items: items.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              value: value,
+                              onChanged: (values) async {
+                                setState(() {
+                                  value = values;
+                                });
+                                await BlocProvider.of<CatCubit>(context).getProduct(widget.sectorId, values!);
+                              },
+                              iconEnabledColor: Color1.primaryColor,
+                            ),
+                          ),
+                        ],
+                      ): Container(),
+
                       SizedBox(
                         height: height * 0.03,
                       ),
@@ -117,7 +152,7 @@ class _ProductsViewState extends State<ProductsView> {
                             });
                             await BlocProvider.of<CatCubit>(context)
                                 .api(pageUrl[index + 1]['url']);
-                          }): const ProductEmpty(),
+                          }): Container(),
                       SizedBox(height: pageCount != 1 ? height * 0.02 : 0),
                     ],
                   ),

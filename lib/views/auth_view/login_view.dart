@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncc_app/core/notify_sevices.dart';
 import 'package:ncc_app/core/style.dart';
+import 'package:ncc_app/core/token.dart';
 import 'package:ncc_app/logic/auth_cubit/auth_cubit.dart';
+import 'package:ncc_app/views/admin/nav_admin_view/nav_admin_view.dart';
 import 'package:ncc_app/views/auth_view/widget/angle_auth.dart';
 import 'package:ncc_app/views/auth_view/widget/auth_button.dart';
 import 'package:ncc_app/views/auth_view/widget/switch_auth.dart';
 import 'package:ncc_app/views/nav_view/nav_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/color1.dart';
 import '../../data/models/auth_model.dart';
@@ -202,7 +206,7 @@ class _LoginViewState extends State<LoginView> {
                       SizedBox(height: height * 0.03),
                       AuthButton(
                         login: login,
-                        onPressed:()=> Navigator.of(context).push(MaterialPageRoute(builder:(context)=>NavView() )),
+                        onPressed: onPressed,
                       ),
                       SwitchAuth(
                           login: login,
@@ -234,16 +238,23 @@ class _LoginViewState extends State<LoginView> {
       );
       if (BlocProvider.of<AuthCubit>(context).state.status ==
           AuthStatus.success) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const NavView(),
-        ));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        int? status = prefs.getInt('role') ;
+        if(status == 0) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => const NavView(),
+          ));
+        } else {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => const NavAdminView(),
+          ));
+        }
       }
     } else {
       await BlocProvider.of<AuthCubit>(context).register(
         AuthModel(
             name: usernameController.text,
             email: emailController.text,
-            address: 'hgh',
             password: passwordController.text,
             coPassword: passwordCoController.text),
       );

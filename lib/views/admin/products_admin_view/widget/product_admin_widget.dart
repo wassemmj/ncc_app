@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/core/api.dart';
-import 'package:ncc_app/logic/delete_cubit/delete_cubit.dart';
 import 'package:ncc_app/views/admin/awidget/delete_button.dart';
 import 'package:ncc_app/views/admin/awidget/discount_button.dart';
 
@@ -14,14 +12,15 @@ class ProductAdminWidget extends StatelessWidget {
       required this.image,
       required this.brand,
       required this.price,
-      required this.productId})
+      required this.productId, required this.discountId})
       : super(key: key);
 
   final String name;
   final String image;
   final String brand;
-  final int price;
+  final num price;
   final int productId;
+  final int discountId;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +80,7 @@ class ProductAdminWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              DiscountButton(id: productId),
+              DiscountButton(id: productId, type: 1, deleteId: discountId,),
               DeleteButton(id: productId),
             ],
           ),

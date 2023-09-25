@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/views/awidget/fav_button.dart';
+import 'package:ncc_app/views/details_view/details_view.dart';
 
 import '../../../core/api.dart';
 import '../../../core/style.dart';
-import '../../../logic/fav_cubit/fav_cubit.dart';
 
 class ProductWidget extends StatefulWidget {
   const ProductWidget({Key? key, required this.name, required this.image, required this.brand, required this.price, required this.id}) : super(key: key);
@@ -25,7 +24,9 @@ class _ProductWidgetState extends State<ProductWidget> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsView(productId: widget.id,),));
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

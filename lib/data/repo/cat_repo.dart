@@ -12,9 +12,9 @@ class CatRepo {
     }
   }
 
-  static Future secRepo(int catId) async {
+  static Future secRepo(int catId,String sort) async {
     try {
-      var response = await CatApi.secApi(catId);
+      var response = await CatApi.secApi(catId,sort);
       return jsonDecode(response);
     } catch (e) {
       throw Exception('Repo Error');

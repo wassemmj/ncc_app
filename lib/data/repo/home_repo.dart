@@ -20,4 +20,22 @@ class HomeRepo {
       throw Exception('Error occured');
     }
   }
+
+  static Future getUsedProduct(String sort) async {
+    try {
+      var response = await HomeApi.getUsedLaptop(sort);
+      return jsonDecode(response);
+    } catch (e) {
+      throw Exception('Error occured');
+    }
+  }
+
+  static Future search(String word) async {
+    try {
+      var response = await HomeApi.search(word);
+      return jsonDecode(response);
+    } catch (e) {
+      throw Exception('Error occured');
+    }
+  }
 }

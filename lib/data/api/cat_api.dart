@@ -27,10 +27,10 @@ class CatApi {
     }
   }
 
-  static Future secApi(int catId) async {
+  static Future secApi(int catId,String sort) async {
     try {
       var response = await http.get(
-        Uri.parse('${Api.api}/category/getSection/$catId'),
+        Uri.parse('${Api.api}/category/getSection/$catId/$sort'),
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ${Token.token}'

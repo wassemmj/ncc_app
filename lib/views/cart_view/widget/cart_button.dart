@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ncc_app/views/check_out_view/check_out_view.dart';
 
 import '../../../core/color1.dart';
 
@@ -9,9 +10,7 @@ class CartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showDialog(context: context, builder: (context) {
-          return const AlertDialog();
-        },);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CheckOut(),));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),

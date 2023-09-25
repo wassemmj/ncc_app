@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ncc_app/core/style.dart';
 import 'package:ncc_app/views/admin/nav_admin_view/nav_admin_view.dart';
+import 'package:ncc_app/views/admin/notification_admin_view/notification_admin_view.dart';
 import 'package:ncc_app/views/cart_view/cart_view.dart';
+import 'package:ncc_app/views/contact_us_view/contact_us_view.dart';
 import 'package:ncc_app/views/explore_view/explore_view.dart';
 import 'package:ncc_app/views/fav_view/fav_view.dart';
 import 'package:ncc_app/views/home_view/home_view.dart';
 import 'package:ncc_app/views/nav_view/widget/appbar_icon.dart';
+import 'package:ncc_app/views/profile_view/profile_view.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 import '../../core/color1.dart';
 import '../../logic/auth_cubit/auth_cubit.dart';
+import '../../logic/notification_cubit/notification_cubit.dart';
 import '../auth_view/login_view.dart';
-import '../awidget/main_drawer.dart';
+import '../search_delegate/search_delegate.dart';
 
 class NavView extends StatefulWidget {
   const NavView({Key? key}) : super(key: key);
@@ -49,6 +55,23 @@ class _NavViewState extends State<NavView> {
   }
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await BlocProvider.of<NotificationCubit>(context, listen: false)
+          .getNotification();
+    });
+
+    super.initState();
+  }
+
+  int role = 0;
+
+  get() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    role = sharedPreferences.getInt('role')!;
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -67,14 +90,14 @@ class _NavViewState extends State<NavView> {
             style: Style.textStyle23,
           ),
           actions: [
-            AppbarIcon(icon: Icons.car_crash_outlined, onPressed: () {}),
+            AppbarIcon(icon: Icons.car_crash_outlined, onPressed: () {}, color: Colors.black54.withOpacity(0.03),),
             SizedBox(width: (width / 82)),
           ],
         ),
         'body': const CartView(),
       },
       {
-        'body': const HomeView(),
+        'body': const Profile_View(),
       },
     ];
     return SideMenu(
@@ -138,11 +161,13 @@ class _NavViewState extends State<NavView> {
                       style: Style.textStyle23,
                     ),
                     actions: [
-                      AppbarIcon(icon: Icons.search_outlined, onPressed: () {}),
+                      AppbarIcon(icon: Icons.search_outlined, onPressed: () {
+                        showSearch(context: context, delegate: MySearchDelegate());
+                      }, color: Colors.black54.withOpacity(0.03),),
                       SizedBox(width: (width / 82)),
                       AppbarIcon(
                           icon: Icons.notifications_none_outlined,
-                          onPressed: () {}),
+                          onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NotificationAdminView(),));}, color: Colors.black54.withOpacity(0.03),),
                       SizedBox(width: (width / 41)),
                     ],
                   ),
@@ -196,13 +221,14 @@ class _NavViewState extends State<NavView> {
             padding: const EdgeInsets.only(left: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 CircleAvatar(
                   backgroundColor: Colors.black,
-                  radius: 22.0,
+                  radius: 30,
+                  child: Image.asset('image/logo.jpg'),
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'Napoli Trading Company',
                   style: TextStyle(
                     fontSize: 18,
@@ -210,7 +236,7 @@ class _NavViewState extends State<NavView> {
                     color: Color1.black,
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
               ],
             ),
           ),
@@ -235,16 +261,18 @@ class _NavViewState extends State<NavView> {
             // padding: EdgeInsets.zero,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactUsView(),));
+            },
             leading:
-                const Icon(Icons.settings, size: 20.0, color: Colors.black),
-            title: const Text("Settings"),
+                const Icon(FontAwesomeIcons.a, size: 20.0, color: Colors.black),
+            title: const Text("About US"),
             textColor: Colors.black,
             dense: true,
-
             // padding: EdgeInsets.zero,
           ),
-          ListTile(
+
+          role == 1 ? ListTile(
             onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => NavAdminView(),));
             },
@@ -255,7 +283,7 @@ class _NavViewState extends State<NavView> {
             dense: true,
 
             // padding: EdgeInsets.zero,
-          ),
+          ) : Container(),
           BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state.status == AuthStatus.success) {

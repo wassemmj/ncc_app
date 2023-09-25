@@ -29,7 +29,7 @@ class HomeListProduct extends StatelessWidget {
           return HomeProduct(
             name: productsData[index]['name'],
             image: productsData[index]['image'],
-            brand: 'Asus Laptop',
+            brand: productsData[index]['Brand'],
             price: productsData[index]['final_price'],
             id: productsData[index]['id'],
           );

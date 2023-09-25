@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ncc_app/views/awidget/fav_button.dart';
 import 'package:ncc_app/views/fav_view/widget/fav_widget.dart';
 
+import '../../core/api.dart';
+import '../../core/color1.dart';
 import '../../core/style.dart';
-import '../products_view/widget/product_widget.dart';
+import '../../logic/fav_cubit/fav_cubit.dart';
+import '../nav_view/widget/appbar_icon.dart';
 
 class FavView extends StatefulWidget {
   const FavView({Key? key}) : super(key: key);
@@ -12,64 +17,75 @@ class FavView extends StatefulWidget {
 }
 
 class _FavViewState extends State<FavView> {
-  List fav = [FavWidget()];
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await BlocProvider.of<FavCubit>(context, listen: false).getFav();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.all(height * 0.008),
+          child: AppbarIcon(
+            icon: Icons.arrow_back,
+            onPressed: () => Navigator.of(context).pop(), color: Colors.black54.withOpacity(0.03),
+          ),
+        ),
         centerTitle: true,
         title: Text(
-          'Favorite Laptops',
+          'Favorites',
           style: Style.textStyle23,
         ),
-        leading: IconButton(onPressed: (){Navigator.of(context).pop();},icon: Icon(Icons.arrow_back,size: 23,color: Colors.black,),),
-        actions: [],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              fav.isNotEmpty
-                  ? Container()
-                  : SizedBox(
-                      height: height / 2,
-                    ),
-              fav.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: fav.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return const FavWidget();
-                          }),
+      body: SafeArea(
+        child: BlocBuilder<FavCubit, FavState>(
+          builder: (context, state) {
+            if (BlocProvider.of<FavCubit>(context).fav == null) {
+              return Container(
+                alignment: Alignment.center,
+                height: height,
+                child: CircularProgressIndicator(
+                  color: Color1.primaryColor,
+                  strokeWidth: 1,
+                ),
+              );
+            }
+            var fav = BlocProvider.of<FavCubit>(context).fav['message'];
+            return Container(
+              padding: EdgeInsets.all(height * 0.02),
+              child: fav.isNotEmpty
+                  ? ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: fav.length,
+                      itemBuilder: (context, index) {
+                        var id = fav[index]['pivot'];
+                        return FavWidget(
+                            image: fav[index]['image'],
+                            name: fav[index]['name'],
+                            price: fav[index]['final_price'],
+                            id: id['product_id'],
+                            brand: 'd');
+                      },
                     )
                   : const Center(
                       child: Text(
-                        'There is not any favorites laptops,\n Add Some laptops',
+                        'There is not any favorites Products,\n Add Some Products',
                         textAlign: TextAlign.center,
                         style: Style.textStyle18,
                       ),
                     ),
-            ],
-          ),
+            );
+          },
         ),
       ),
-      // floatingActionButton: fav.isEmpty
-      //     ? FloatingActionButton(
-      //   onPressed: () {
-      //   },
-      //
-      //   backgroundColor: Color1.primaryColor,
-      //   child: const Icon(
-      //     Icons.favorite_border,
-      //     color: Colors.white,
-      //   ),
-      // )
-      //     : null,
     );
   }
 }

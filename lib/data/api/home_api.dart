@@ -49,4 +49,52 @@ class HomeApi {
       rethrow;
     }
   }
+
+  static Future search(String word) async {
+    try {
+      var response = await http.get(
+        Uri.parse('${Api.api}/sreach/$word'),
+        headers: {
+          'Accept': 'application/json',
+          'Connection': "Keep-Alive",
+          'Authorization': 'Bearer ${Token.token}'
+        },
+      );
+      print(response.body);
+      if(response.statusCode == 200) {
+        if(response.body.isEmpty) {
+          throw Exception('is Empty');
+        }
+        return response.body;
+      } else {
+        throw Exception('an Error Occured');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future getUsedLaptop(String sort) async {
+    try {
+      var response = await http.get(
+        Uri.parse('${Api.api}/category/UsedProduct/$sort'),
+        headers: {
+          'Accept': 'application/json',
+          'Connection': "Keep-Alive",
+          'Authorization': 'Bearer ${Token.token}'
+        },
+      );
+      print(response.body);
+      if(response.statusCode == 200) {
+        if(response.body.isEmpty) {
+          throw Exception('is Empty');
+        }
+        return response.body;
+      } else {
+        throw Exception('an Error Occured');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
