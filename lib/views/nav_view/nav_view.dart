@@ -77,9 +77,7 @@ class _NavViewState extends State<NavView> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     List bottomView = [
-      {
-        'body': const HomeView(),
-      },
+
       {
         'body': const ExploreView(),
       },
@@ -128,7 +126,7 @@ class _NavViewState extends State<NavView> {
           ignoring: isOpened,
           child: Scaffold(
             appBar: _currentIndex == 2
-                ? bottomView[_currentIndex]['appbar']
+                ? bottomView[_currentIndex]['appbar']:_currentIndex==3?bottomView[_currentIndex]['profile appbar']
                 : AppBar(
                     leading: Container(
                       padding: EdgeInsets.all((height / 108)),
