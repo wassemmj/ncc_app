@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ncc_app/core/color1.dart';
 import 'package:ncc_app/logic/cat_cubit/cat_cubit.dart';
+import 'package:ncc_app/views/awidget/loading_widget.dart';
 import 'package:ncc_app/views/explore_view/widget/category_widget.dart';
 import 'package:ncc_app/views/explore_view/widget/section_widget.dart';
 
@@ -31,18 +31,15 @@ class _ExploreViewState extends State<ExploreView> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const RangeMaintainingScrollPhysics(),
         child: BlocBuilder<CatCubit, CatState>(
           builder: (context, state) {
             if( BlocProvider.of<CatCubit>(context).category == null) {
-              return Container(
-                alignment: Alignment.center,
-                height: height * 0.8,
-                child: CircularProgressIndicator(color: Color1.primaryColor,strokeWidth: 1,),
-              );
+              return const LoadingWidget();
             }
             var category = BlocProvider.of<CatCubit>(context).category['category'];
             return Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 CategoryWidget(
                   set: (index) async{

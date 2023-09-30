@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ncc_app/core/color1.dart';
 import 'package:ncc_app/views/admin/user_view/widget/user_widget.dart';
 import 'package:ncc_app/views/cart_view/widget/price_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/style.dart';
 
@@ -77,9 +78,12 @@ class ExpandableContainer extends StatelessWidget {
                       maxLines: 2,
                     ),
                   ),
-                  Text(
-                    order['phone_number'].toString(),
-                    style: Style.textStyle14,
+                  TextButton(
+                    onPressed: () => launchUrl(Uri.parse("tel://${order['phone_number']}")),
+                    child: Text(
+                      order['phone_number'].toString(),
+                      style: Style.textStyle14,
+                    ),
                   ),
                 ],
               ),

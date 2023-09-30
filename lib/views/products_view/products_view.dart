@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/core/style.dart';
+import 'package:ncc_app/views/awidget/loading_widget.dart';
 import 'package:ncc_app/views/nav_view/widget/appbar_icon.dart';
 import 'package:ncc_app/views/products_view/widget/product_widget.dart';
 
@@ -9,9 +10,9 @@ import '../../logic/cat_cubit/cat_cubit.dart';
 import '../admin/products_admin_view/widget/product_empty.dart';
 import '../admin/products_admin_view/widget/product_page_count.dart';
 
-
 class ProductsView extends StatefulWidget {
-  const ProductsView({Key? key, required this.name, required this.sectorId}) : super(key: key);
+  const ProductsView({Key? key, required this.name, required this.sectorId})
+      : super(key: key);
 
   final String name;
   final int sectorId;
@@ -21,11 +22,11 @@ class ProductsView extends StatefulWidget {
 }
 
 class _ProductsViewState extends State<ProductsView> {
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await BlocProvider.of<CatCubit>(context).getProduct(widget.sectorId, 'desc');
+      await BlocProvider.of<CatCubit>(context)
+          .getProduct(widget.sectorId, 'desc');
     });
     super.initState();
   }
@@ -47,16 +48,18 @@ class _ProductsViewState extends State<ProductsView> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(
-            padding: EdgeInsets.all((height / 108)),
-            child: AppbarIcon(
-              icon: Icons.arrow_back,
-              onPressed: () => Navigator.of(context).pop(), color: Colors.black54.withOpacity(0.03),
-            ),
+          padding: EdgeInsets.all((height / 108)),
+          child: AppbarIcon(
+            icon: Icons.arrow_back,
+            onPressed: () => Navigator.of(context).pop(),
+            color: Colors.black54.withOpacity(0.03),
+          ),
         ),
         actions: [
           AppbarIcon(
             icon: Icons.more_horiz_outlined,
-            onPressed: () {}, color: Colors.black54.withOpacity(0.03),
+            onPressed: () {},
+            color: Colors.black54.withOpacity(0.03),
           ),
           SizedBox(width: (width / 41)),
         ],
@@ -68,27 +71,16 @@ class _ProductsViewState extends State<ProductsView> {
             builder: (context, state) {
               if (state.status == CatStatus.loading ||
                   state.status == CatStatus.initial) {
-                return Container(
-                  alignment: Alignment.center,
-                  height: height,
-                  child: CircularProgressIndicator(
-                    color: Color1.primaryColor,
-                    strokeWidth: 1,
-                  ),
-                );
+                return const LoadingWidget();
               }
               if (BlocProvider.of<CatCubit>(context).product == null) {
-                return Container(
-                  alignment: Alignment.center,
-                  height: height,
-                  child: CircularProgressIndicator(
-                    color: Color1.primaryColor,
-                    strokeWidth: 1,
-                  ),
-                );
+                return const LoadingWidget();
               }
-              if (BlocProvider.of<CatCubit>(context).product.containsKey('products')) {
-                var products = BlocProvider.of<CatCubit>(context).product['products'];
+              if (BlocProvider.of<CatCubit>(context)
+                  .product
+                  .containsKey('products')) {
+                var products =
+                    BlocProvider.of<CatCubit>(context).product['products'];
                 List productsData = products['data'];
                 int pageCount = products['last_page'];
                 List pageUrl = products['links'];
@@ -98,37 +90,39 @@ class _ProductsViewState extends State<ProductsView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      total != 0 ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            widget.name,
-                            style: Style.textStyleSec,
-                          ),
-                          Container(
-                            height: height * 0.045,
-                            alignment: Alignment.topRight,
-                            child: DropdownButton(
-                              items: items.map((String items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text(items),
-                                );
-                              }).toList(),
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              value: value,
-                              onChanged: (values) async {
-                                setState(() {
-                                  value = values;
-                                });
-                                await BlocProvider.of<CatCubit>(context).getProduct(widget.sectorId, values!);
-                              },
-                              iconEnabledColor: Color1.primaryColor,
-                            ),
-                          ),
-                        ],
-                      ): Container(),
-
+                      total != 0
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  widget.name,
+                                  style: Style.textStyleSec,
+                                ),
+                                Container(
+                                  height: height * 0.045,
+                                  alignment: Alignment.topRight,
+                                  child: DropdownButton(
+                                    items: items.map((String items) {
+                                      return DropdownMenuItem(
+                                        value: items,
+                                        child: Text(items),
+                                      );
+                                    }).toList(),
+                                    icon: const Icon(Icons.keyboard_arrow_down),
+                                    value: value,
+                                    onChanged: (values) async {
+                                      setState(() {
+                                        value = values;
+                                      });
+                                      await BlocProvider.of<CatCubit>(context)
+                                          .getProduct(widget.sectorId, values!);
+                                    },
+                                    iconEnabledColor: Color1.primaryColor,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
                       SizedBox(
                         height: height * 0.03,
                       ),
@@ -140,19 +134,31 @@ class _ProductsViewState extends State<ProductsView> {
                         maxCrossAxisExtent: height * 0.4,
                         childAspectRatio: width / height * 1.2,
                         children: productsData
-                            .map((e) => ProductWidget(name: e['name'], image: e['image'], brand: 'Asus Laptop', price: e['final_price'], id: e['id'],))
+                            .map((e) => ProductWidget(
+                                  name: e['name'],
+                                  image: e['image'],
+                                  brand: e['Brand'],
+                                  price: e['final_price'],
+                                  id: e['id'],
+                                  discount: e.containsKey('discount_id'),
+                                  percentageOff: e.containsKey('discount_id')
+                                      ? e['percentage_off']
+                                      : 0,
+                                ))
                             .toList(),
                       ),
-                      pageCount != 1 ? ProductPageCount(
-                          pageCount: pageCount,
-                          pageIndex: pageIndex,
-                          onPressed: (index) async {
-                            setState(() {
-                              pageIndex = index;
-                            });
-                            await BlocProvider.of<CatCubit>(context)
-                                .api(pageUrl[index + 1]['url']);
-                          }): Container(),
+                      pageCount != 1
+                          ? ProductPageCount(
+                              pageCount: pageCount,
+                              pageIndex: pageIndex,
+                              onPressed: (index) async {
+                                setState(() {
+                                  pageIndex = index;
+                                });
+                                await BlocProvider.of<CatCubit>(context)
+                                    .api(pageUrl[index + 1]['url']);
+                              })
+                          : Container(),
                       SizedBox(height: pageCount != 1 ? height * 0.02 : 0),
                     ],
                   ),
@@ -167,5 +173,3 @@ class _ProductsViewState extends State<ProductsView> {
     );
   }
 }
-
-

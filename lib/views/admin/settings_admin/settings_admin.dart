@@ -13,6 +13,7 @@ import 'package:ncc_app/views/admin/user_view/user_view.dart';
 
 import '../../../logic/auth_cubit/auth_cubit.dart';
 import '../../auth_view/login_view.dart';
+import '../show_discount_view/show_discount_view.dart';
 
 class SettingsAdmin extends StatefulWidget {
   const SettingsAdmin({Key? key}) : super(key: key);
@@ -66,6 +67,11 @@ class _SettingsAdminState extends State<SettingsAdmin> {
                 function: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const AdvertsAdmin(),
                     ))),
+            SettingsAdminWidget(
+                text: 'Show Discount',
+                function: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ShowDiscountView(),
+                ))),
             SettingsAdminWidget(
                 text: 'Contact Us',
                 function: () => Navigator.of(context).push(MaterialPageRoute(

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/logic/account_cubit/account_cubit.dart';
+import 'package:ncc_app/logic/advert_cubit/advert_cubit.dart';
 import 'package:ncc_app/logic/auth_cubit/auth_cubit.dart';
 import 'package:ncc_app/logic/cart_cubit/cart_cubit.dart';
 import 'package:ncc_app/logic/cat_cubit/cat_cubit.dart';
+import 'package:ncc_app/logic/color_cubit/color_cubit.dart';
 import 'package:ncc_app/logic/create_cubit/create_cubit.dart';
 import 'package:ncc_app/logic/delete_cubit/delete_cubit.dart';
 import 'package:ncc_app/logic/details_cubit/details_cubit.dart';
@@ -15,80 +18,88 @@ import 'package:ncc_app/logic/notification_cubit/notification_cubit.dart';
 import 'package:ncc_app/logic/order_user_cubit/order_user_cubit.dart';
 import 'package:ncc_app/logic/status_cubit/status_cubit.dart';
 import 'package:ncc_app/logic/user_cubit/user_cubit.dart';
-import 'package:ncc_app/views/admin/nav_admin_view/nav_admin_view.dart';
 import 'package:ncc_app/views/auth_view/login_view.dart';
-import 'package:ncc_app/views/nav_view/nav_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/color1.dart';
 import 'logic/add_cubit/add_cubit.dart';
 import 'logic/edit_cubit/edit_cubit.dart';
+import 'logic/get_discount_cubit/get_discount_cubit.dart';
 import 'logic/order_admin_cubit/order_admin_cubit.dart';
 
 void main() async {
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // var status = prefs.getBool('isLoggedIn') ?? false;
   // var statys = prefs.getInt('role');
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AuthCubit(),
-        ),
-        BlocProvider(
-          create: (context) => CatCubit(),
-        ),
-        BlocProvider(
-          create: (context) => CreateCubit(),
-        ),
-        BlocProvider(
-          create: (context) => DeleteCubit(),
-        ),
-        BlocProvider(
-          create: (context) => UserCubit(),
-        ),
-        BlocProvider(
-          create: (context) => DiscountCubit(),
-        ),
-        BlocProvider(
-          create: (context) => FavCubit(),
-        ),
-        BlocProvider(
-          create: (context) => HomeCubit(),
-        ),
-        BlocProvider(
-          create: (context) => AccountCubit(),
-        ),
-        BlocProvider(
-          create: (context) => FooterCubit(),
-        ),
-        BlocProvider(
-          create: (context) => EditCubit(),
-        ),
-        BlocProvider(
-          create: (context) => DetailsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => CartCubit(),
-        ),
-        BlocProvider(
-          create: (context) => OrderUserCubit(),
-        ),
-        BlocProvider(
-          create: (context) => OrderAdminCubit(),
-        ),
-        BlocProvider(
-          create: (context) => StatusCubit(),
-        ),
-        BlocProvider(
-          create: (context) => AddCubit(),
-        ),
-        BlocProvider(
-          create: (context) => NotificationCubit(),
-        ),
-      ],
-      child: const MyApp()
-    ),
+    MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (context) => AuthCubit(),
+      ),
+      BlocProvider(
+        create: (context) => CatCubit(),
+      ),
+      BlocProvider(
+        create: (context) => CreateCubit(),
+      ),
+      BlocProvider(
+        create: (context) => DeleteCubit(),
+      ),
+      BlocProvider(
+        create: (context) => UserCubit(),
+      ),
+      BlocProvider(
+        create: (context) => DiscountCubit(),
+      ),
+      BlocProvider(
+        create: (context) => FavCubit(),
+      ),
+      BlocProvider(
+        create: (context) => HomeCubit(),
+      ),
+      BlocProvider(
+        create: (context) => AccountCubit(),
+      ),
+      BlocProvider(
+        create: (context) => FooterCubit(),
+      ),
+      BlocProvider(
+        create: (context) => EditCubit(),
+      ),
+      BlocProvider(
+        create: (context) => DetailsCubit(),
+      ),
+      BlocProvider(
+        create: (context) => CartCubit(),
+      ),
+      BlocProvider(
+        create: (context) => OrderUserCubit(),
+      ),
+      BlocProvider(
+        create: (context) => OrderAdminCubit(),
+      ),
+      BlocProvider(
+        create: (context) => StatusCubit(),
+      ),
+      BlocProvider(
+        create: (context) => AddCubit(),
+      ),
+      BlocProvider(
+        create: (context) => AdvertCubit(),
+      ),
+      BlocProvider(
+        create: (context) => GetDiscountCubit(),
+      ),
+      BlocProvider(
+        create: (context) => NotificationCubit(),
+      ),
+      BlocProvider(
+        create: (context) => ColorCubit(),
+      ),
+    ], child: const MyApp()),
   );
 }
 
@@ -100,43 +111,55 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // bool status = true;
+  // var statys;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   g();
+  // }
+  //
+  // void g() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     status = prefs.getBool('isLoggedIn') ?? false;
+  //     statys = prefs.getInt('role');
+  //   });
+  // }
 
-  bool status = true;
-  var statys;
-
-  @override
-  void initState() {
-    super.initState();
-    g();
-  }
-
-  void g() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      status = prefs.getBool('isLoggedIn') ?? false;
-      statys = prefs.getInt('role');
-    });
-  }
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     await BlocProvider.of<ColorCubit>(context, listen: false).getColor();
+  //   });
+  //   var color = BlocProvider.of<ColorCubit>(context).color['colors'][0];
+  //   setState(() {
+  //     Color1.primaryColor = Color.fromRGBO(color['R'], color['G'], color['B'], color['A']);
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          // hoverColor: Colors.transparent,
-          appBarTheme: const AppBarTheme(
-            color: Color1.white,
-            elevation: 0,
-          ),
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Color1.primaryColor, // Your accent color
-          ),
-          scaffoldBackgroundColor: Color1.white,
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        // hoverColor: Colors.transparent,
+        appBarTheme: const AppBarTheme(
+          color: Color1.white,
+          elevation: 0,
         ),
-        home: status ? const LoginView() : statys == 0 ? const NavView() : const NavAdminView() ,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Color1.primaryColor, // Your accent color
+        ),
+        scaffoldBackgroundColor: Color1.white,
+      ),
+      // home: status ? const LoginView() : statys == 0 ? const NavView() : const NavAdminView() ,
+      home: const LoginView(),
     );
   }
 }

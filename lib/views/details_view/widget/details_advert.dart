@@ -3,28 +3,44 @@ import 'package:ncc_app/core/color1.dart';
 import 'package:ncc_app/core/style.dart';
 import 'package:ncc_app/views/awidget/fav_button.dart';
 import 'package:ncc_app/views/details_view/widget/buy_button.dart';
+import 'package:ncc_app/views/details_view/widget/details_av_widget.dart';
 
+import '../../table_view/table_view.dart';
 import 'buttons_increment.dart';
 import 'description.dart';
 import 'details_text.dart';
 
 class DetailsAdvert extends StatefulWidget {
-  const DetailsAdvert({Key? key, required this.price, required this.name, required this.discount, required this.brand, required this.description, this.discountPrice, required this.id}) : super(key: key);
+  const DetailsAdvert(
+      {Key? key,
+      required this.price,
+      required this.name,
+      required this.discount,
+      required this.brand,
+      required this.description,
+      this.discountPrice,
+      required this.id,
+      required this.ava,
+      required this.code, required this.more, required this.moreDetails})
+      : super(key: key);
 
-  final num price;
+  final String price;
   final String name;
   final bool discount;
   final String brand;
   final String description;
   final num? discountPrice;
   final int id;
+  final String ava;
+  final String code;
+  final bool more;
+  final Map moreDetails;
 
   @override
   State<DetailsAdvert> createState() => _DetailsAdvertState();
 }
 
 class _DetailsAdvertState extends State<DetailsAdvert> {
-
   int quantity = 1;
 
   @override
@@ -39,16 +55,18 @@ class _DetailsAdvertState extends State<DetailsAdvert> {
             topRight: Radius.circular(50), topLeft: Radius.circular(50)),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.name,
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 19,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              widget.name,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 19,
+              ),
+              maxLines: 3,
             ),
-            maxLines: 3,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,20 +80,22 @@ class _DetailsAdvertState extends State<DetailsAdvert> {
                   Row(
                     children: [
                       DetailsText(
-                          text: '${widget.price} JOD  ',
+                          text: '${widget.discountPrice} JOD  ',
                           style: const TextStyle(
                             color: Color1.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 20,
                           )),
-                      widget.discount ? DetailsText(
-                          text: '${widget.discountPrice} JOD',
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 17,
-                          )):Container(),
+                      widget.discount
+                          ? DetailsText(
+                              text: '${widget.price} JOD',
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 17,
+                              ))
+                          : Container(),
                     ],
                   ),
                 ],
@@ -85,20 +105,37 @@ class _DetailsAdvertState extends State<DetailsAdvert> {
           ),
           SizedBox(height: height * 0.02),
           Description(text: widget.description),
-          SizedBox(height: height * 0.17),
+          SizedBox(height: height * 0.02),
+          DetailsAvWidget(code: widget.code, ava: widget.ava),
+          widget.more ? TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => TableView(table: widget.moreDetails,),));
+              },
+              style: const ButtonStyle(alignment: Alignment.center),
+              child: Text(
+                'Show More Details',
+                style: TextStyle(color: Color1.primaryColor,fontSize: 15),
+                textAlign: TextAlign.center,
+              )) : Container(),
+          SizedBox(height: widget.more ? height * 0.05 : widget.name.length > 30 ?  height * 0.1 : height * 0.1),
           Row(
             children: [
-              ButtonIncrement(quantity: quantity, onChanged: (int check) {
-                setState(() {
-                  if (check == 1) {
-                    quantity = quantity > 1
-                        ? quantity - 1
-                        : quantity = 1;
-                  } else {
-                    quantity = quantity + 1;
-                  }
-                }); },),
-              BuyButton(productId: widget.id, quantity: quantity,),
+              ButtonIncrement(
+                quantity: quantity,
+                onChanged: (int check) {
+                  setState(() {
+                    if (check == 1) {
+                      quantity = quantity > 1 ? quantity - 1 : quantity = 1;
+                    } else {
+                      quantity = quantity + 1;
+                    }
+                  });
+                },
+              ),
+              BuyButton(
+                productId: widget.id,
+                quantity: quantity,
+              ),
             ],
           ),
         ],

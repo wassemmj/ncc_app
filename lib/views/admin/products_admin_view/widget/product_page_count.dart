@@ -14,7 +14,7 @@ class ProductPageCount extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: height * 0.035,
+      height: height * 0.04,
       child: Container(
         alignment: Alignment.center,
         child: ListView.builder(

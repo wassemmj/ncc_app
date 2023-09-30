@@ -104,9 +104,8 @@ class _LoginViewState extends State<LoginView> {
                             labelStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                             iconColor: Color1.primaryColor,
-                            prefixIcon: const Icon(
+                            prefixIcon:  Icon(
                               Icons.email_outlined,
-                              // color: Color1.black,
                             )),
                         keyboardType: TextInputType.emailAddress,
                         controller: emailController,

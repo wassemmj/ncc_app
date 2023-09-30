@@ -22,6 +22,7 @@ class EditRepo {
       throw Exception('error in repo');
     }
   }
+
   static Future editSec(int productId,String edit,File? image) async {
     try {
       var response = await EditApi.editSec(edit, image, productId);
@@ -30,4 +31,14 @@ class EditRepo {
       throw Exception('error in repo');
     }
   }
+
+  static Future editProduct(int id,String price,String quantity) async {
+    try {
+      var response = await EditApi.editProduct(id, price, quantity);
+      return jsonDecode(response);
+    } catch (e) {
+      throw Exception('error in repo');
+    }
+  }
+
 }

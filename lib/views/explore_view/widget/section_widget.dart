@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/views/admin/products_admin_view/widget/product_empty.dart';
+import 'package:ncc_app/views/awidget/loading_widget.dart';
 import 'package:ncc_app/views/explore_view/widget/section.dart';
 
 import '../../../core/color1.dart';
@@ -43,24 +44,10 @@ class _SectionWidgetState extends State<SectionWidget> {
       builder: (context, state) {
         if (state.status == CatStatus.loading ||
             state.status == CatStatus.initial) {
-          return Container(
-            alignment: Alignment.center,
-            height: height * 0.7,
-            child: CircularProgressIndicator(
-              color: Color1.primaryColor,
-              strokeWidth: 1,
-            ),
-          );
+          return const LoadingWidget();
         }
         if (BlocProvider.of<CatCubit>(context).section == null) {
-          return Container(
-            alignment: Alignment.center,
-            height: height * 0.7,
-            child: CircularProgressIndicator(
-              color: Color1.primaryColor,
-              strokeWidth: 1,
-            ),
-          );
+          return const LoadingWidget();
         }
         var sectionM = BlocProvider.of<CatCubit>(context).section;
         var section;
@@ -71,10 +58,9 @@ class _SectionWidgetState extends State<SectionWidget> {
           section = BlocProvider.of<CatCubit>(context).section['section'];
           return Container(
             padding: EdgeInsets.all(height * 0.03),
-            height: height,
             child: GridView.builder(
               itemCount: section.length,
-              physics: const RangeMaintainingScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -89,6 +75,7 @@ class _SectionWidgetState extends State<SectionWidget> {
         } else {
           var pageUrl = sectionM['products']['links'];
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 padding: EdgeInsets.only(right: width * 0.05),

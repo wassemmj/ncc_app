@@ -77,8 +77,7 @@ class _ContactUsViewState extends State<ContactUsView> {
                 return footer != "Footer information is empty" ?  Column(
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.black,
-                      radius: 100,
+                      radius: height * 0.1,
                       child: Image.asset('image/logo.jpg'),
                     ),
                     SizedBox(height: height * 0.04),
@@ -113,19 +112,16 @@ class _ContactUsViewState extends State<ContactUsView> {
                     ),
                     SizedBox(height: height * 0.05),
                     FooterText(
-                        text1: Icons.email_outlined, text2: footer[0]['email']),
-                    SizedBox(height: height * 0.02),
+                        text1: Icons.email_outlined, text2: footer[0]['email'], email: true,),
                     FooterText(
                         text1: Icons.phone,
-                        text2: footer[0]['numberOne'].toString()),
-                    SizedBox(height: height * 0.02),
+                        text2: footer[0]['numberOne'].toString(), email: false,),
                     FooterText(
                         text1: Icons.phone,
-                        text2: footer[0]['numberTwo'].toString()),
-                    SizedBox(height: height * 0.02),
+                        text2: footer[0]['numberTwo'].toString(), email: false,),
                     FooterText(
                         text1: Icons.phone,
-                        text2: footer[0]['numberThree'].toString()),
+                        text2: footer[0]['numberThree'].toString(), email: false,),
                     SizedBox(height: height * 0.02),
                     const Divider(
                       color: Colors.black54,
@@ -185,7 +181,7 @@ class _ContactUsViewState extends State<ContactUsView> {
 
 
   whatsapp(phone) async {
-    var contact = '+963$phone';
+    var contact = '$phone';
     var androidUrl = "whatsapp://send?phone=$contact";
     var iosUrl = "https://wa.me/$contact";
     try {

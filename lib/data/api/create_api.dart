@@ -2,6 +2,8 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:ncc_app/data/models/laptop_model.dart';
+import 'package:ncc_app/data/models/monitor_model.dart';
 
 import '../../core/api.dart';
 import '../../core/token.dart';
@@ -134,7 +136,7 @@ class CreateApi {
           .add(await http.MultipartFile.fromPath('image', images[0].path));
       for (int i = 1; i < images.length; i++) {
         request.files
-            .add(await http.MultipartFile.fromPath('images', images[i].path));
+            .add(await http.MultipartFile.fromPath('images[]', images[i].path));
       }
       request.headers.addAll(headers);
 
@@ -144,6 +146,52 @@ class CreateApi {
         return response.stream.bytesToString();
       } else {
         throw Exception('an Error Occurred');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future createMoreDetails(LaptopModel laptopModel,int id) async {
+    try {
+      var response = await http.post(
+          Uri.parse('${Api.api}/category/Section/laptop/$id'),
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ${Token.token}'
+          },
+          body: laptopModel.toJson(),
+      );
+      if (response.statusCode == 200) {
+        if (response.body.isEmpty) {
+          throw Exception('Response is Empty');
+        }
+        return response.body;
+      } else {
+        throw Exception('an Error Occured');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future createMonitorDetails(MonitorModel laptopModel,int id) async {
+    try {
+      var response = await http.post(
+          Uri.parse('${Api.api}/category/Section/monitor/$id'),
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ${Token.token}'
+          },
+          body: laptopModel.toMap(),
+      );
+      if (response.statusCode == 200) {
+        if (response.body.isEmpty) {
+          throw Exception('Response is Empty');
+        }
+        return response.body;
+      } else {
+        throw Exception('an Error Occured');
       }
     } catch (e) {
       rethrow;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ncc_app/core/style.dart';
+import 'package:ncc_app/logic/fav_cubit/fav_cubit.dart';
 import 'package:ncc_app/views/admin/nav_admin_view/nav_admin_view.dart';
 import 'package:ncc_app/views/admin/notification_admin_view/notification_admin_view.dart';
 import 'package:ncc_app/views/cart_view/cart_view.dart';
@@ -57,8 +58,8 @@ class _NavViewState extends State<NavView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await BlocProvider.of<NotificationCubit>(context, listen: false)
-          .getNotification();
+      await BlocProvider.of<NotificationCubit>(context, listen: false).getNotification();
+      await BlocProvider.of<FavCubit>(context, listen: false).getFav();
     });
 
     super.initState();

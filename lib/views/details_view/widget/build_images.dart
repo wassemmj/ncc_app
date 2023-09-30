@@ -54,7 +54,7 @@ class _BuildImagesState extends State<BuildImages> {
             height: height * 0.26,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage('${Api.apiImage}/other_images/${widget.images[currentIndex]}'),
+                  image: currentIndex==0 ? NetworkImage('${Api.apiImage}/images/${widget.images[currentIndex]}') : NetworkImage('${Api.apiImage}/other_images/${widget.images[currentIndex]}'),
                   fit: BoxFit.contain,
                 )
             ),
@@ -84,7 +84,7 @@ class _BuildImagesState extends State<BuildImages> {
                           currentIndex = index;
                         });
                       },
-                      child: Image.network('${Api.apiImage}/other_images/${widget.images[index]}')),
+                      child: index==0 ? Image.network('${Api.apiImage}/images/${widget.images[index]}')  : Image.network('${Api.apiImage}/other_images/${widget.images[index]}')),
                 );
               },
             ),

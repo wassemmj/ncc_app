@@ -83,18 +83,48 @@ class _ShowMoreViewState extends State<ShowMoreView> {
                   ),
                 );
               }
-              if (BlocProvider.of<HomeCubit>(context).products == null) {
-                return Container(
-                  alignment: Alignment.center,
-                  height: height,
-                  child: CircularProgressIndicator(
-                    color: Color1.primaryColor,
-                    strokeWidth: 1,
-                  ),
-                );
+              var products;
+              if (widget.type == 'new') {
+                if (BlocProvider.of<HomeCubit>(context).newProduct == null) {
+                  return Container(
+                    alignment: Alignment.center,
+                    height: height,
+                    child: CircularProgressIndicator(
+                      color: Color1.primaryColor,
+                      strokeWidth: 1,
+                    ),
+                  );
+                }
+                products =
+                    BlocProvider.of<HomeCubit>(context).newProduct['products'];
+              } else if (widget.type == 'used') {
+                if (BlocProvider.of<HomeCubit>(context).usedProduct == null) {
+                  return Container(
+                    alignment: Alignment.center,
+                    height: height,
+                    child: CircularProgressIndicator(
+                      color: Color1.primaryColor,
+                      strokeWidth: 1,
+                    ),
+                  );
+                }
+                products =
+                    BlocProvider.of<HomeCubit>(context).usedProduct['products'];
+              } else {
+                if (BlocProvider.of<HomeCubit>(context).discountProduct ==
+                    null) {
+                  return Container(
+                    alignment: Alignment.center,
+                    height: height,
+                    child: CircularProgressIndicator(
+                      color: Color1.primaryColor,
+                      strokeWidth: 1,
+                    ),
+                  );
+                }
+                products = BlocProvider.of<HomeCubit>(context)
+                    .discountProduct['products'];
               }
-              var products =
-                  BlocProvider.of<HomeCubit>(context).products['products'];
               List productsData = products['data'];
               int pageCount = products['last_page'];
               List pageUrl = products['links'];
@@ -106,35 +136,35 @@ class _ShowMoreViewState extends State<ShowMoreView> {
                   children: [
                     total != 0
                         ? Container(
-                          height: height * 0.045,
-                          alignment: Alignment.topRight,
-                          child: DropdownButton(
-                            items: items.map((String items) {
-                              return DropdownMenuItem(
-                                value: items,
-                                child: Text(items),
-                              );
-                            }).toList(),
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            value: value,
-                            onChanged: (values) async {
-                              setState(() {
-                                value = values;
-                              });
-                              if (widget.type == 'new') {
-                                await BlocProvider.of<HomeCubit>(context)
-                                    .getNewProduct(values!);
-                              } else if (widget.type == 'used') {
-                                await BlocProvider.of<HomeCubit>(context)
-                                    .getUsedProduct(values!);
-                              } else {
-                                await BlocProvider.of<HomeCubit>(context)
-                                    .getDiscountProduct(values!);
-                              }
-                            },
-                            iconEnabledColor: Color1.primaryColor,
-                          ),
-                        )
+                            height: height * 0.045,
+                            alignment: Alignment.topRight,
+                            child: DropdownButton(
+                              items: items.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              value: value,
+                              onChanged: (values) async {
+                                setState(() {
+                                  value = values;
+                                });
+                                if (widget.type == 'new') {
+                                  await BlocProvider.of<HomeCubit>(context)
+                                      .getNewProduct(values!);
+                                } else if (widget.type == 'used') {
+                                  await BlocProvider.of<HomeCubit>(context)
+                                      .getUsedProduct(values!);
+                                } else {
+                                  await BlocProvider.of<HomeCubit>(context)
+                                      .getDiscountProduct(values!);
+                                }
+                              },
+                              iconEnabledColor: Color1.primaryColor,
+                            ),
+                          )
                         : Container(),
                     SizedBox(
                       height: height * 0.03,
@@ -153,6 +183,10 @@ class _ShowMoreViewState extends State<ShowMoreView> {
                                 brand: 'Asus Laptop',
                                 price: e['final_price'],
                                 id: e['id'],
+                                discount: e.containsKey('discount_id'),
+                                percentageOff: e.containsKey('discount_id')
+                                    ? e['percentage_off']
+                                    : 0,
                               ))
                           .toList(),
                     ),
@@ -165,7 +199,7 @@ class _ShowMoreViewState extends State<ShowMoreView> {
                                 pageIndex = index;
                               });
                               await BlocProvider.of<HomeCubit>(context)
-                                  .api(pageUrl[index + 1]['url']);
+                                  .api(pageUrl[index + 1]['url'], widget.type);
                             })
                         : Container(),
                     SizedBox(height: pageCount != 1 ? height * 0.02 : 0),

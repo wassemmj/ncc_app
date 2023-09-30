@@ -46,8 +46,8 @@ class PriceWidget extends StatelessWidget {
             height: 1,
           ),
           SizedBox(height: height * 0.02,),
-          PriceText(text: 'Total :', price: '$total JOD', discount: false),
-          SizedBox(height: height * 0.02,),
+          // PriceText(text: 'Total :', price: '$total JOD', discount: false),
+          // SizedBox(height: height * 0.02,),
         ],
       ),
     );

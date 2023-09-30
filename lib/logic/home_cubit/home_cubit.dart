@@ -15,7 +15,6 @@ class HomeCubit extends Cubit<HomeState> {
   var usedProduct;
   var searchList;
   var adds;
-  var products;
 
   Future getHome(String sort) async {
     emit(state.copyWith(status: HomeStatus.loading));
@@ -53,7 +52,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future getNewProduct(String sort) async {
     emit(state.copyWith(status: HomeStatus.loading));
     try {
-      products = await HomeRepo.getNewProduct(sort);
+      newProduct = await HomeRepo.getNewProduct(sort);
       emit(state.copyWith(status: HomeStatus.success));
     } catch (e) {
       emit(state.copyWith(status: HomeStatus.error));
@@ -63,7 +62,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future getUsedProduct(String sort) async {
     emit(state.copyWith(status: HomeStatus.loading));
     try {
-      products = await HomeRepo.getUsedProduct(sort);
+      usedProduct = await HomeRepo.getUsedProduct(sort);
       emit(state.copyWith(status: HomeStatus.success));
     } catch (e) {
       emit(state.copyWith(status: HomeStatus.error));
@@ -73,20 +72,25 @@ class HomeCubit extends Cubit<HomeState> {
   Future getDiscountProduct(String sort) async {
     emit(state.copyWith(status: HomeStatus.loading));
     try {
-      products = await HomeRepo.getDiscountProduct(sort);
+      discountProduct = await HomeRepo.getDiscountProduct(sort);
       emit(state.copyWith(status: HomeStatus.success));
     } catch (e) {
       emit(state.copyWith(status: HomeStatus.error));
     }
   }
 
-  Future api(String api) async {
+  Future api(String api, String type) async {
     emit(state.copyWith(status: HomeStatus.loading));
     try {
-      products = await CatRepo.api(api);
+      if (type == 'new') {
+        newProduct = await CatRepo.api(api);
+      } else if (type == 'used') {
+        usedProduct = await CatRepo.api(api);
+      } else {
+         discountProduct = await CatRepo.api(api);
+      }
       emit(state.copyWith(status: HomeStatus.success));
-      return products;
-    } catch(e) {
+    } catch (e) {
       emit(state.copyWith(status: HomeStatus.error));
     }
   }

@@ -1,5 +1,4 @@
 class LaptopModel {
-  String? productId;
   String? processorGeneration;
   String? processorFamily;
   String? processorSpeed;
@@ -31,7 +30,6 @@ class LaptopModel {
   String? warranty;
 
   LaptopModel({
-    this.productId,
     this.processorGeneration,
     this.processorFamily,
     this.processorSpeed,
@@ -65,7 +63,6 @@ class LaptopModel {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['product_id'] = productId;
     _data['Processor_Generation'] = processorGeneration;
     _data['Processor_Family'] = processorFamily;
     _data['Processor_Speed'] = processorSpeed;
@@ -100,7 +97,6 @@ class LaptopModel {
 
   factory LaptopModel.fromMap(Map<String, dynamic> map) {
     return LaptopModel(
-      productId: map['productId'] as String,
       processorGeneration: map['processorGeneration'] as String,
       processorFamily: map['processorFamily'] as String,
       processorSpeed: map['processorSpeed'] as String,

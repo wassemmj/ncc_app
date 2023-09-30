@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../../core/api.dart';
 import '../../../../core/color1.dart';
 import '../../../../logic/add_cubit/add_cubit.dart';
+import '../../../home_view/widget/advert_nav.dart';
 
 class AdvertAdminWidget extends StatelessWidget {
   const AdvertAdminWidget({Key? key, required this.image, required this.type, required this.id})
@@ -58,7 +59,9 @@ class AdvertAdminWidget extends StatelessWidget {
               right: 10,
               bottom: 10,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdvertNav(type: type),));
+                },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25))),

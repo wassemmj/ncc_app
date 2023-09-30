@@ -30,7 +30,7 @@ class Section extends StatelessWidget {
             ? Column(
           children: [
             SizedBox(
-              height: height * .16,
+              height: height * .14,
               child: Image.network(
                 '${Api.apiImage}/section/${image}',
               ),

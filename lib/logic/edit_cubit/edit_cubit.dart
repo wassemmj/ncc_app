@@ -38,4 +38,14 @@ class EditCubit extends Cubit<EditState> {
       emit(state.copyWith(status: EditStatus.error));
     }
   }
+
+  Future editProduct(int id,String price,String quantity) async {
+    emit(state.copyWith(status: EditStatus.loading));
+    try {
+      await EditRepo.editProduct(id, price, quantity);
+      emit(state.copyWith(status: EditStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: EditStatus.error));
+    }
+  }
 }

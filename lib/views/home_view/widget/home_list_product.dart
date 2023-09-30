@@ -16,10 +16,8 @@ class HomeListProduct extends StatelessWidget {
     List pageUrl = product['links'];
     int total = product['total'];
     return Container(
-      constraints: BoxConstraints(
-        maxHeight: height * 0.29,
-        minHeight: height * 0.27
-      ),
+      constraints:
+          BoxConstraints(maxHeight: height * 0.29, minHeight: height * 0.27),
       child: ListView.builder(
         itemCount: productsData.length,
         shrinkWrap: true,
@@ -32,6 +30,8 @@ class HomeListProduct extends StatelessWidget {
             brand: productsData[index]['Brand'],
             price: productsData[index]['final_price'],
             id: productsData[index]['id'],
+            discount: productsData[index].containsKey('discount_id') ,
+            percentageOff: productsData[index].containsKey('discount_id') ? productsData[index]['percentage_off'] : 0,
           );
         },
       ),

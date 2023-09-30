@@ -4,6 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ncc_app/data/repo/create_repo.dart';
 
+import '../../data/models/laptop_model.dart';
+import '../../data/models/monitor_model.dart';
+
 part 'create_state.dart';
 
 class CreateCubit extends Cubit<CreateState> {
@@ -59,4 +62,23 @@ class CreateCubit extends Cubit<CreateState> {
     }
   }
 
+  Future createMoreDetails(LaptopModel laptopModel,int id) async {
+    emit(state.copyWith(status: CreateStatus.loading));
+    try {
+      await CreateRepo.createMoreDetails(laptopModel, id);
+      emit(state.copyWith(status: CreateStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: CreateStatus.error));
+    }
+  }
+
+  Future createMonitorDetails(MonitorModel laptopModel,int id) async {
+    emit(state.copyWith(status: CreateStatus.loading));
+    try {
+      await CreateRepo.createMonitorDetails(laptopModel, id);
+      emit(state.copyWith(status: CreateStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: CreateStatus.error));
+    }
+  }
 }

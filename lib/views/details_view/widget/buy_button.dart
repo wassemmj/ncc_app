@@ -13,6 +13,8 @@ class BuyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
         if(state.status == CartStatus.success) {
@@ -24,8 +26,8 @@ class BuyButton extends StatelessWidget {
             await BlocProvider.of<CartCubit>(context).addToCart(productId, quantity);
           },
           child: Container(
-            padding: const EdgeInsets.only(
-                left: 87, right: 87, top: 10, bottom: 10),
+            padding: EdgeInsets.only(
+                left: width * 0.2, right: width * 0.21, top: height* 0.012, bottom: height* 0.012),
             decoration: BoxDecoration(
               color: Color1.primaryColor,
               borderRadius: BorderRadius.circular(25),

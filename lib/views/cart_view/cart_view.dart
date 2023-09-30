@@ -86,13 +86,13 @@ class _CartViewState extends State<CartView> {
                         shrinkWrap: true,
                         itemCount: cart.length,
                         itemBuilder: (context, index) {
-                          var price = double.parse(cart[index]['Unit_Price']);
-                          total = total + (price * cart[index]['Quntity']);
+                          var price = double.parse(cart[index]['Unit_Price_Without_Discount']);
+                          // total = total + (price * cart[index]['Quntity']);
                           return CartWidget(
                             name: cart[index]['name'],
                             id: cart[index]['id'],
                             brand: 'Asus Laptop',
-                            price: cart[index]['Unit_Price'],
+                            price: cart[index]['Unit_Price_Without_Discount'],
                             image: cart[index]['image'], quantity: cart[index]['Quntity'], productId: cart[index]['product_id'],
                           );
                         },

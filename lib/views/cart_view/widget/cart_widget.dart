@@ -26,7 +26,7 @@ class CartWidget extends StatelessWidget {
   final String brand;
   final String price;
   final String image;
-  final int quantity;
+  final String quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class CartWidget extends StatelessWidget {
         ],
       ),
       child: Container(
-        height: height * 0.12,
+        height: height * 0.13,
         margin: EdgeInsets.all(height * 0.022),
         decoration: const BoxDecoration(
             border: Border(
@@ -83,7 +83,7 @@ class CartWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: width / 2.2,
+                  width: width - width * 0.42,
                   child: Text(
                     name,
                     style: const TextStyle(
@@ -94,12 +94,11 @@ class CartWidget extends StatelessWidget {
                     maxLines: 3,
                   ),
                 ),
-                SizedBox(height: (height / 85)),
                 Text(
                   brand,
                   style: Style.textStyle14,
                 ),
-                SizedBox(height: (height / 85)),
+                SizedBox(height: height * 0.01),
                 Row(
                   children: [
                     Text(
@@ -110,7 +109,7 @@ class CartWidget extends StatelessWidget {
                           fontSize: 17),
                     ),
                     SizedBox(width: (width * 0.1)),
-                    IncrementCart(quantity: quantity, id: id, productId: productId,)
+                    IncrementCart(quantity: int.parse(quantity), id: id, productId: productId,)
                   ],
                 )
               ],

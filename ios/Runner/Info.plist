@@ -36,6 +36,9 @@
         <string>mailto</string>
         <string>instagram</string>
     </array>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

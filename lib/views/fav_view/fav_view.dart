@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_placeholder_textlines/flutter_placeholder_textlines.dart';
 import 'package:ncc_app/views/awidget/fav_button.dart';
+import 'package:ncc_app/views/awidget/loading_widget.dart';
 import 'package:ncc_app/views/fav_view/widget/fav_widget.dart';
 
-import '../../core/api.dart';
 import '../../core/color1.dart';
 import '../../core/style.dart';
 import '../../logic/fav_cubit/fav_cubit.dart';
@@ -48,14 +49,7 @@ class _FavViewState extends State<FavView> {
         child: BlocBuilder<FavCubit, FavState>(
           builder: (context, state) {
             if (BlocProvider.of<FavCubit>(context).fav == null) {
-              return Container(
-                alignment: Alignment.center,
-                height: height,
-                child: CircularProgressIndicator(
-                  color: Color1.primaryColor,
-                  strokeWidth: 1,
-                ),
-              );
+              return const LoadingWidget();
             }
             var fav = BlocProvider.of<FavCubit>(context).fav['message'];
             return Container(
@@ -71,7 +65,7 @@ class _FavViewState extends State<FavView> {
                             image: fav[index]['image'],
                             name: fav[index]['name'],
                             price: fav[index]['final_price'],
-                            id: id['product_id'],
+                            id: fav[index]['id'],
                             brand: 'd');
                       },
                     )

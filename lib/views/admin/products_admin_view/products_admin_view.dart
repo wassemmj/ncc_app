@@ -44,7 +44,8 @@ class _ProductsAdminViewState extends State<ProductsAdminView> {
           padding: EdgeInsets.all((height / 108)),
           child: AppbarIcon(
             icon: Icons.arrow_back,
-            onPressed: () => Navigator.of(context).pop(), color: Colors.black54.withOpacity(0.03),
+            onPressed: () => Navigator.of(context).pop(),
+            color: Colors.black54.withOpacity(0.03),
           ),
         ),
         actions: [
@@ -54,7 +55,8 @@ class _ProductsAdminViewState extends State<ProductsAdminView> {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const CreateProduct(),
               ));
-            }, color: Colors.black54.withOpacity(0.03),
+            },
+            color: Colors.black54.withOpacity(0.03),
           ),
           SizedBox(width: (width / 41)),
         ],
@@ -119,7 +121,8 @@ class _ProductsAdminViewState extends State<ProductsAdminView> {
                                   name: e['name'],
                                   image: e['image'],
                                   brand: e['Brand'],
-                                  price: e['final_price'], discountId: e['discount_id'],
+                                  price: e['final_price'],
+                                  discountId: e.containsKey('discount_id') ? e['discount_id'] : 0,
                                 ))
                             .toList(),
                       ),

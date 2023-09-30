@@ -73,9 +73,11 @@ class _ProductOutState extends State<ProductOut> {
                       .map((e) => ProductWidget(
                     name: e['name'],
                     image: e['image'],
-                    brand: 'Asus Laptop',
+                    brand: e['Brand'],
                     price: e['final_price'],
                     id: e['id'],
+                    discount: e.containsKey('discount_id'),
+                    percentageOff: e.containsKey('discount_id') ? e['percentage_off'] : 0,
                   ))
                       .toList(),
                 ) : Container(),

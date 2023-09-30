@@ -71,7 +71,7 @@ class _IncrementCartState extends State<IncrementCart> {
               _createIncrementDicrementButton(Icons.add, () async {
                 var w = BlocProvider.of<CartCubit>(context);
                 await w.addToCart(widget.productId, 1);
-                _increment();
+                // _increment();
               }, Colors.black, Colors.white),
             ],
           ),

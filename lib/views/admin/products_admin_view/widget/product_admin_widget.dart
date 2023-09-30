@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ncc_app/core/api.dart';
+import 'package:ncc_app/views/admin/add_more_details_view/add_more_details_view.dart';
 import 'package:ncc_app/views/admin/awidget/delete_button.dart';
 import 'package:ncc_app/views/admin/awidget/discount_button.dart';
+import 'package:ncc_app/views/awidget/product_alert.dart';
 
 import '../../../../core/style.dart';
 
@@ -27,7 +29,9 @@ class ProductAdminWidget extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        showDialog(context: context, builder: (context) => ProductAlert(id: productId),);
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -81,7 +85,7 @@ class ProductAdminWidget extends StatelessWidget {
                 ],
               ),
               DiscountButton(id: productId, type: 1, deleteId: discountId,),
-              DeleteButton(id: productId),
+              // DeleteButton(id: productId),
             ],
           ),
         ],

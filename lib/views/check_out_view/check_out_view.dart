@@ -70,7 +70,7 @@ class CheckOut extends StatelessWidget {
               ),
               SizedBox(height: height * 0.02),
               PhoneFromField(onChanged: (phone) {
-                phoneNumber = phone!.number;
+                phoneNumber = phone!.completeNumber;
               },),
               SizedBox(height: height * 0.02),
               CheckOutButton(number: phoneNumber, address: addressController.text),

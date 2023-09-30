@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:ncc_app/views/home_view/widget/advert_nav.dart';
 
 import '../../../core/api.dart';
 import '../../../core/color1.dart';
@@ -36,7 +37,9 @@ class HomeAdvert extends StatelessWidget {
               right: 10,
               bottom: 10,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdvertNav(type: e['type']),));
+                },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25))),

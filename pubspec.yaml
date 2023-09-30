@@ -53,6 +53,7 @@ dependencies:
   flutter_colorpicker:
   font_awesome_flutter:
   flutter_local_notifications:
+  flutter_placeholder_textlines:
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ncc_app/logic/home_cubit/home_cubit.dart';
+import 'package:ncc_app/views/awidget/loading_widget.dart';
 import 'package:ncc_app/views/home_view/widget/home_advert.dart';
 import 'package:ncc_app/views/home_view/widget/home_list_product.dart';
 import 'package:ncc_app/views/home_view/widget/home_text.dart';
@@ -33,32 +34,18 @@ class _HomeViewState extends State<HomeView> {
           builder: (context, state) {
             if (state.status == HomeStatus.initial ||
                 state.status == HomeStatus.loading) {
-              return Container(
-                alignment: Alignment.center,
-                height: height,
-                child: CircularProgressIndicator(
-                  color: Color1.primaryColor,
-                  strokeWidth: 1,
-                ),
-              );
+              return const LoadingWidget();
             }
             if (BlocProvider.of<HomeCubit>(context).newProduct == null ||
                 BlocProvider.of<HomeCubit>(context).discountProduct == null ||
-                BlocProvider.of<HomeCubit>(context).usedProduct == null ||
+                // BlocProvider.of<HomeCubit>(context).usedProduct == null ||
                 BlocProvider.of<HomeCubit>(context).adds == null) {
-              return Container(
-                alignment: Alignment.center,
-                height: height,
-                child: CircularProgressIndicator(
-                  color: Color1.primaryColor,
-                  strokeWidth: 1,
-                ),
-              );
+              return const LoadingWidget();
             }
             var newProduct = BlocProvider.of<HomeCubit>(context).newProduct;
             var discountProduct =
                 BlocProvider.of<HomeCubit>(context).discountProduct;
-            var usedProduct = BlocProvider.of<HomeCubit>(context).usedProduct;
+            // var usedProduct = BlocProvider.of<HomeCubit>(context).usedProduct;
             var adds = BlocProvider.of<HomeCubit>(context).adds['adv'];
             return Container(
               padding: EdgeInsets.only(
@@ -90,16 +77,16 @@ class _HomeViewState extends State<HomeView> {
                   HomeListProduct(
                     product: discountProduct['products'],
                   ),
-                  SizedBox(height: height * 0.005),
-                  const HomeText(
-                    text1: 'Used Products',
-                    text2: 'See all',
-                    type: 'used',
-                  ),
-                  SizedBox(height: height * 0.015),
-                  HomeListProduct(
-                    product: usedProduct['products'],
-                  ),
+                  // SizedBox(height: height * 0.005),
+                  // const HomeText(
+                  //   text1: 'Used Products',
+                  //   text2: 'See all',
+                  //   type: 'used',
+                  // ),
+                  // SizedBox(height: height * 0.015),
+                  // HomeListProduct(
+                  //   product: usedProduct['products'],
+                  // ),
                 ],
               ),
             );

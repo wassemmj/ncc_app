@@ -26,9 +26,8 @@ class _FavButtonState extends State<FavButton> {
 
   getd() async {
     var f = BlocProvider.of<FavCubit>(context);
-    await f.getFav();
+    // await f.getFav();
     fav = f.fav['message'].any((product) {
-      print(product['id']);
       return widget.id == product['id'];
     });
   }
@@ -61,8 +60,12 @@ class _FavButtonState extends State<FavButton> {
               if (!fav) {
                 await BlocProvider.of<FavCubit>(context).makeFav(widget.id);
               } else {
-                print('removed');
+                await BlocProvider.of<FavCubit>(context).makeFav(widget.id);
+                setState(() {
+                  fav = false;
+                });
               }
+              await BlocProvider.of<FavCubit>(context).getFav();
               getd();
             },
             icon: Icon(

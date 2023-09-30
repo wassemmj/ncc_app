@@ -103,8 +103,8 @@ class _CompanyInfoViewState extends State<CompanyInfoView> {
                 if (footer != "Footer information is empty") {
                   idd = footer[0]['id'];
                 }
-                return footer != "Footer information is empty"
-                    ? Column(
+                if (footer != "Footer information is empty") {
+                  return Column(
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.black,
@@ -144,19 +144,16 @@ class _CompanyInfoViewState extends State<CompanyInfoView> {
                           SizedBox(height: height * 0.05),
                           FooterText(
                               text1: Icons.email_outlined,
-                              text2: footer[0]['email']),
-                          SizedBox(height: height * 0.02),
+                              text2: footer[0]['email'], email: true,),
                           FooterText(
                               text1: Icons.phone,
-                              text2: footer[0]['numberOne'].toString()),
-                          SizedBox(height: height * 0.02),
+                              text2: footer[0]['numberOne'].toString(), email: false,),
                           FooterText(
                               text1: Icons.phone,
-                              text2: footer[0]['numberTwo'].toString()),
-                          SizedBox(height: height * 0.02),
+                              text2: footer[0]['numberTwo'].toString(), email: false,),
                           FooterText(
                               text1: Icons.phone,
-                              text2: footer[0]['numberThree'].toString()),
+                              text2: footer[0]['numberThree'].toString(), email: false,),
                           SizedBox(height: height * 0.02),
                           const Divider(
                             color: Colors.black54,
@@ -205,8 +202,10 @@ class _CompanyInfoViewState extends State<CompanyInfoView> {
                             ],
                           ),
                         ],
-                      )
-                    : Container();
+                      );
+                } else {
+                  return Container();
+                }
               },
             ),
           ),

@@ -93,4 +93,32 @@ class EditApi {
       rethrow;
     }
   }
+
+  static Future editProduct(int id,String price,String quantity) async {
+    try {
+      var response = await http.post(
+          Uri.parse('${Api.api}/category/Section/product/edit/$id'),
+          headers: {
+            'Accept': 'application/json',
+            'Connection': "Keep-Alive",
+            'Authorization': 'Bearer ${Token.token}'
+          },
+          body: {
+            'price' : price,
+            'Quntity' : quantity,
+          }
+      );
+      print(response.statusCode);
+      if(response.statusCode == 200) {
+        if(response.body.isEmpty) {
+          throw Exception('is Empty');
+        }
+        return response.body;
+      } else {
+        throw Exception('an Error Occured');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
